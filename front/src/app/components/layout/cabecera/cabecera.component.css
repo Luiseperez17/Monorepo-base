@@ -1,0 +1,6 @@
+.version{margin-top: 2%; padding: 10px; color:#2A3547;font-weight: bold;}
+.versionAngular{padding: 10px; color:#2A3547;font-weight: bold; cursor: pointer;}
+a.links:hover{background: #CFDACB !important;color:#546C4C !important}
+a.links:hover span,
+a.links:hover h6 {color: #546C4C !important;}
+.btnCerrarSesion:hover {background-color: #546C4C !important; color: white !important;}

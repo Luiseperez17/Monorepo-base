@@ -1,0 +1,206 @@
+<!--  Body Wrapper -->
+<div class="modal" tabindex="-1" id="modaCrea" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Creación de usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+          <button type="submit" class="btn btn-primary botonSilveragro">Submit</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary botonSilveragro">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed">
+  
+  <!-- menú principal-->
+  <app-menu></app-menu>
+  <!-- Fin menú principal-->
+
+  <!--  Sidebar End -->
+  <!--  Main wrapper -->
+  <div class="body-wrapper">
+    <!--  Cabecera -->
+    <app-cabecera></app-cabecera>
+    <!--  Fin cabecera -->
+
+    <!-- contenido central-->
+    <div class="container-fluid">
+      <!--Inicio del contenido central-->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title fw-semibold mb-4">Componente de ejemplo
+             <a data-bs-toggle="modal" data-bs-target="#modaCrea" target="_blank" class="btn btn-sm btn-primary botonSilveragro ms-5">Agregar nuevo</a>
+          </h5>
+          <!-- <div class="dropdown">
+            <button class="btn btn-small btn-secondary  botonSilveragro dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Acciones
+            </button>
+            
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div> -->
+          
+          <div class="mb-0">
+          
+          
+          
+            <p>Para los futuros programadores. Por favor usar este componente para basarse en la forma de creación y manejo del estandar de la estructura</p>
+
+            <div class="table-responsive">
+              <table class="table text-nowrap mb-0 align-middle">
+                <thead class="text-dark fs-4">
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Id</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Assigned</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Name</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Priority</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Budget</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      &nbsp;
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">1</h6></td>
+                    <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">Sunil Joshi</h6>
+                        <span class="fw-normal">Web Designer</span>                          
+                    </td>
+                    <td class="border-bottom-0">
+                      <p class="mb-0 fw-normal">Elite Admin</p>
+                    </td>
+                    <td class="border-bottom-0">
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
+                      </div>
+                    </td>
+                    <td class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0 fs-4">$3.9</h6>
+                    </td>
+                    <td class="border-bottom-0">
+                      <a href="#" target="_blank" class="btn btn-sm btn-primary botonSilveragro ms-5">
+                        <i class="ti ti-edit"></i>
+                      </a>
+                    </td>
+                  </tr> 
+                  <tr>
+                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">2</h6></td>
+                    <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">Andrew McDownland</h6>
+                        <span class="fw-normal">Project Manager</span>                          
+                    </td>
+                    <td class="border-bottom-0">
+                      <p class="mb-0 fw-normal">Real Homes WP Theme</p>
+                    </td>
+                    <td class="border-bottom-0">
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
+                      </div>
+                    </td>
+                    <td class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0 fs-4">$24.5k</h6>
+                    </td>
+                    <td class="border-bottom-0">
+                      <a href="#" target="_blank" class="btn btn-sm btn-primary botonSilveragro ms-5">
+                        <i class="ti ti-edit"></i>
+                      </a>
+                    </td>
+                  </tr> 
+                  <tr>
+                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">3</h6></td>
+                    <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">Christopher Jamil</h6>
+                        <span class="fw-normal">Project Manager</span>                          
+                    </td>
+                    <td class="border-bottom-0">
+                      <p class="mb-0 fw-normal">MedicalPro WP Theme</p>
+                    </td>
+                    <td class="border-bottom-0">
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-danger rounded-3 fw-semibold">High</span>
+                      </div>
+                    </td>
+                    <td class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6>
+                    </td>
+                    <td class="border-bottom-0">
+                      <a href="#" target="_blank" class="btn btn-sm btn-primary botonSilveragro ms-5">
+                        <i class="ti ti-edit"></i>
+                      </a>
+                    </td>
+                  </tr>      
+                  <tr>
+                    <td class="border-bottom-0"><h6 class="fw-semibold mb-0">4</h6></td>
+                    <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">Nirav Joshi</h6>
+                        <span class="fw-normal">Frontend Engineer</span>                          
+                    </td>
+                    <td class="border-bottom-0">
+                      <p class="mb-0 fw-normal">Hosting Press HTML</p>
+                    </td>
+                    <td class="border-bottom-0">
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
+                      </div>
+                    </td>
+                    <td class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0 fs-4">$2.4k</h6>
+                    </td>
+                    <td class="border-bottom-0">
+                      <a href="#" target="_blank" class="btn btn-sm btn-primary botonSilveragro ms-5">
+                        <i class="ti ti-edit"></i>
+                      </a>
+                    </td>
+                  </tr>                       
+                </tbody>
+              </table>
+            </div>
+          
+          
+          </div>
+        </div>
+      </div>
+      <!--Fin del contenido central-->
+    </div>
+    <!--fin contenido central-->
+    
+  </div>
+</div>

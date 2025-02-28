@@ -1,0 +1,139 @@
+<!--  Body Wrapper -->
+<div class="modal" tabindex="-1" id="modaCrea" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header container">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel" *ngIf="creaUsuario">{{CrearUsuario}}</h1>
+            <h1 class="modal-title fs-5" id="staticBackdropLabel" *ngIf="!creaUsuario">{{ActualizarUsuario}}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="" (submit)="crearUsuario()">
+                <div class="container col-10 col-sm-10 col-md-10 col-lg-6 float-start">
+                    <label class="form-label">Usuario (*)</label>
+                    <input type="text" class="form-control" id="Usuario" name="Usuario" [(ngModel)]="usuario.tx_usuario"/>
+                </div>
+                <div class="container col-10 col-sm-10 col-md-10 col-lg-6 float-start">
+                    <label class="form-label">Nombre (*)</label>
+                    <input type="text" class="form-control" id="Nombre" name="Nombre" [(ngModel)]="usuario.tx_nombre">
+                </div>
+                <div class="container col-10 col-sm-10 col-md-10 col-lg-6 float-start">
+                    <label class="form-label">Perfil (*)</label>
+                    <select id="Perfil" name="Perfil" class="form-select"  [(ngModel)]="usuario.in_perfil">
+                      <option value="" disabled selected>Seleccione...</option>
+                      <option *ngFor="let Perfil of Perfiles" [value]="Perfil.id_perfil">{{Perfil.tx_descripcion}}</option>
+                    </select>
+                </div>
+                <div class="container col-10 col-sm-10 col-md-10 col-lg-6 float-start">
+                    <label for="exampleInputEmail1" class="form-label">Correo Electrónico (*)</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Ejemplo@silveragro.com" [(ngModel)]="usuario.tx_correo" />
+                </div>
+                <div class="modal-footer col-md-12 float-start">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="Submit" class="btn btn-primary botonSilveragro" data-bs-dismiss="modal" *ngIf="!creaUsuario">Actualizar</button>
+                    <button type="submit" class="btn btn-primary botonSilveragro" *ngIf="creaUsuario">Crear</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+  
+  
+<!-- contenido central-->
+<div class="container-fluid">
+  <!--Inicio del contenido central-->
+  <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mt-5" style="top:50px;" *ngIf="permisosModulo && permisosModulo.ver == 1">
+    <div class="card-body px-4 py-3">
+      <div class="row align-items-center">
+        <div class="col-9">
+          <h4 class="fw-semibold mb-8">{{ tituloModulo }}
+            <a data-bs-toggle="modal" data-bs-target="#modaCrea" target="_blank" class="btn btn-sm btn-primary botonSilveragro ms-5" (click)="crear()" *ngIf="permisosModulo.crear == 1">Agregar nuevo</a>
+          </h4>
+          <!-- <p>A continuación verá el listado de usuarios creado en el sistema</p> -->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a class="text-muted text-decoration-none" [routerLink]="'/home'">Home</a>
+              </li>
+              <li class="breadcrumb-item" aria-current="page">{{ tituloModulo }}</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-3">
+          <div class="text-center mb-n5">
+            <img src="../../../../../assets/images/logos/ChatBc.png" alt="" class="img-fluid mb-n4">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" *ngIf="permisosModulo && permisosModulo.ver == 1" style="top: 50px;">
+    <div class="col-12 col-md-12 card-body mt-4">
+      <div class="form-floating col-12 col-md-4 float-end buscar mb-4">
+        <div>
+          <input class="form-control buscardor" id="exampleFormControlInput1" [(ngModel)]="searchText" (input)="buscarUsuarios(searchText)" placeholder="Buscar...">
+        </div>
+      </div>
+      <div class="mb-0 col-12 col-md-12  float-start">
+        <div class="table-responsive">
+          <table class="table text-nowrap mb-0 align-middle table-striped">
+            <thead class="text-dark fs-4 ">
+              <tr class="table-dark">
+                <th class="border-bottom-0">CÓDIGO</th>
+                <th class="border-bottom-0">CORREO ELECTRÓNICO</th>
+                <th class="border-bottom-0">NOMBRE</th>
+                <th class="border-bottom-0">PERFIL</th>
+                <th class="border-bottom-0">OPCIONES</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let usuario of searchResults | paginate: pageNumber:pageSize">
+                <td class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">{{ usuario.id_usuario }}</h6>
+                </td>
+                <td class="border-bottom-0">
+                    <h6 class="fw-semibold mb-1">{{ usuario.tx_usuario }}</h6>
+                </td>
+                <td class="border-bottom-0">
+                    <p class="mb-0 fw-normal">{{ usuario.tx_nombre }}</p>
+                </td>
+                <td class="border-bottom-0">
+                    <p class="mb-0 fw-normal">{{ obtenerNombrePerfil(usuario.in_perfil) }}</p>
+                </td>
+                <td class="border-bottom-0">
+                    <a data-bs-toggle="modal" data-bs-target="#modaCrea" target="_blank" class="btn btn-sm btn-primary botonSilveragro m-2" (click)="actualizar(usuario.id_usuario)" *ngIf="permisosModulo.editar == 1">
+                        <i class="ti ti-edit"></i>
+                    </a>
+                    <a data-bs-toggle="modal" data-bs-target="#modaCrea" target="_blank" class="btn btn-sm btn-dark m-2" (click)="crearContrasena(usuario.id_usuario,usuario.tx_usuario)" *ngIf="permisosModulo.editar == 1">
+                        <i class="ti ti-lock"></i>
+                    </a>
+                    <a data-bs-toggle="modal" data-bs-target="#modaCrea" target="_blank" class="btn btn-sm btn-danger m-2" (click)="eliminar(usuario.id_usuario)"  *ngIf="permisosModulo.borrar == 1">
+                        <i class="ti ti-trash"></i>
+                    </a>
+                </td>
+              </tr>                      
+            </tbody>
+          </table>
+          <div *ngIf="totalPages > 1" class="text-center">
+            <div class="d-flex justify-content-between col-12 col-md-4 mx-auto align-items-center">
+              <button *ngIf="pageNumber > 1" class="btn" (click)="previousPage()"><i class="ti ti-chevron-left botoNext"></i></button>
+              <div class="py-2 justify-content-start" style="flex-grow: 1;">
+                Página {{ pageNumber }} de {{ totalPages}}
+              </div>
+              <button *ngIf="pageNumber < totalPages" class="btn" (click)="nextPage()"><i class="ti ti-chevron-right botoNext"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt-0 pt-0" >
+    <ng-container *ngIf="permisosModulo && permisosModulo.ver == 0">
+      <app-no-acceso></app-no-acceso>
+    </ng-container>
+  </div>
+  <!--Fin del contenido central-->
+</div>
+<!--fin contenido central-->
+      

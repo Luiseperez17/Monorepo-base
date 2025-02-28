@@ -1,0 +1,88 @@
+<!--  Body Wrapper -->
+<ng-container *ngIf="EmpresaGeneral == 1">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+      <img src="../../../../assets/images/logos/fondoAnimales.png" alt="" width="100%">
+        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center  background-div" style="background-color: #F8FAF8;">
+          <div class="d-flex align-items-center justify-content-center w-100">
+            <div class="row justify-content-center w-100">
+              <div class="col-md-8 col-lg-6 col-xxl-3">
+                <div class="card mb-0">
+                  <div class="card-body">
+                    <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                      <img src="../assets/images/logos/logo.png" width="80%" alt="">
+                    </a>
+                    <!-- <p class="text-center">Your Social Campaigns</p> -->
+                    <form action="" (submit)="cambiarContrasena()">
+                      <div class="mb-2">
+                        <label for="email" class="form-label">Correo electrónico de ingreso</label>
+                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" [(ngModel)]="data.Usuario">
+                      </div>
+                      <button type="submit" class="btn btn-primary botonSilveragro w-100 py-8 fs-4 mb-4 rounded-2">Solicitar contraseña</button>
+                      <div class="text-center">
+                        <a class="text-dark w-100 py-8 fs-4 text-decoration-underline mb-2" (click)="volver()" style="cursor: pointer;">¿ya tengo contraseña?</a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer py-3">
+          <div class="container">
+            <div class="col-md-6 float-start">
+              <p class="">Copyright © {{ yeard }}. Todos los derechos reservados. V{{ version }}</p>
+            </div>
+            <div class="col-md-6 float-start text-end"> 
+              <p>
+                <span *ngIf="demo" class="badge fw-semibold py-1 w-85 badgeDanger" style="padding:10px 10px;">DEMO</span>
+                <span *ngIf="!demo" class="badge fw-semibold py-1 w-85 badgeSuccess">Produccion</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </ng-container>
+  <ng-container *ngIf="EmpresaGeneral == 2">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" style="background-color: #F6E4B1 !important;">
+      <div class="position-relative overflow-hidden min-vh-100 d-flex align-items-center justify-content-center">
+        <img src="../../../../assets/images/logos/Clip.png" alt="" class="perritos" style="position: absolute; left: 10%; bottom: 20px;">
+        <div class="d-flex align-items-center justify-content-center w-100">
+          <div class="row justify-content-center w-100">
+            <div class=" col-10 col-md-6 col-lg-5 col-xl-3">
+              <div class="card-body">
+                <a href="./index.html" class="text-nowrap logo-img text-start d-block w-100">
+                  <img src="../assets/images/logos/logoPetus.png" width="40%" alt="">
+                </a>
+                <!-- <p class="text-center">Your Social Campaigns</p> -->
+                <form action="" (submit)="cambiarContrasena()">
+                    <div class="mb-2">
+                      <label for="email" class="form-label">Correo electrónico de ingreso</label>
+                      <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" [(ngModel)]="data.Usuario" style="background-color: white;">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" style="background-color: #566F84; border-color: #566F84;">Solicitar contraseña</button>
+                    <div class="text-center">
+                      <a class="text-dark w-100 py-8 fs-4 text-decoration-underline mb-2" (click)="volver()"  style="cursor: pointer;">¿ya tengo contraseña?</a>
+                    </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer2 py-3">
+      <div class="container">
+        <div class="col-md-6 float-start">
+          <p class="">Copyright © {{ yeard }}. Todos los derechos reservados. V. {{ version }}</p>
+        </div>
+        <div class="col-md-6 float-start text-end"> 
+          <p>
+            <span *ngIf="demo" class="badge fw-semibold py-1 w-85 badgeDanger" style="padding:10px 10px;">DEMO</span>
+            <span *ngIf="!demo" class="badge fw-semibold py-1 w-85 badgeSuccess">Produccion</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  
+  </ng-container>

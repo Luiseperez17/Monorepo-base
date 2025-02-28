@@ -1,0 +1,15 @@
+.buscardor{border-color: #008000 !important;}
+.buscardor{border-color: #008000 !important;}
+
+.ng-dropdown-panel .scroll-host .ng-dropdown-panel .ng-dropdown-panel-items .ng-select .div{
+    background-color: white;
+}
+:host ::ng-deep .ng-dropdown-panel {
+    background-color: white !important;
+    border-radius: 4% !important;
+    border: 1px solid #F0F0F0 !important; /* Cambia el color según tus necesidades */
+    box-sizing: border-box !important;
+    box-shadow: 0px 3px 7px rgba(68, 68, 68, 0.37) !important;
+    width: 100% !important;
+    margin-left:-15px !important;
+}

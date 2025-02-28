@@ -1,0 +1,18 @@
+<div *ngIf="isLoginPage" class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+     data-sidebar-position="fixed" data-header-position="fixed">
+     
+     <app-menu (closeMenu)="onCloseMenu()"></app-menu>
+
+     <div class="body-wrapper">
+         <!--  Cabecera -->
+         <app-cabecera (toggleMenu)="onToggleMenu()"></app-cabecera>
+
+             <div class="container-fluid">
+                 <router-outlet></router-outlet>
+             </div>
+     </div>
+</div>
+<!-- lo el componente del login -->
+<div *ngIf="!isLoginPage"  class="float-start" [style.width]="'100%'">
+    <router-outlet></router-outlet>
+</div>
