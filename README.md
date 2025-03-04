@@ -6,5 +6,5 @@ Laravel 10
 
 Angular 18.2.11
   *Front install: 
-    * npm install 
-    * ng serve 
+  * npm install 
+  * ng serve 
