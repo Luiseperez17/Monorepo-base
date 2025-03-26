@@ -13,6 +13,7 @@ node_modules/
 bower_components/
 jspm_packages/
 .angular/
+.angular/cache/
 *.log
 
 # Ignorar archivos de entorno (contienen contraseñas y configuraciones sensibles)
