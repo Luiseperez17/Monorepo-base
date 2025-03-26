@@ -9,10 +9,10 @@ export class PermisosService {
   //autenticación para recibir respuesta del API
   public token:any = sessionStorage.getItem('token');
   public headers:any = {
-    'Authorization':`Bearer ${this.token}` 
+    'Authorization':`Bearer ${this.token}`
   };
   public env = environment;
-  public urlApi     = (this.env.demo) ? this.env.urlApiDemo : this.env.urlApi;
+  public urlApi     = this.env.urlApi;
   constructor(private http:HttpClient) { }
 
   getPermisos(idModulo:number,idPerfil:number):any{

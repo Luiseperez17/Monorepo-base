@@ -10,8 +10,8 @@ import { FuncionesService } from '../funciones.service';
 export class IndexdbService {
 
   private db: IDBDatabase | undefined;
-  public dbName:any = (environment.demo) ? environment.dbNameDemo : environment.dbName;
-  public dbVersion:any = (environment.demo) ? environment.dbVersionDemo : environment.dbVersion;
+  public dbName:any = environment.dbName;
+  public dbVersion:any = environment.dbVersion;
 
   constructor(private funciones:FuncionesService) {
     this.openDB();
@@ -34,7 +34,7 @@ export class IndexdbService {
       };
 
       request.onupgradeneeded = (event:any) => {
-        
+
         const db = (event.target as IDBOpenDBRequest).result;
 
         //tabla de usuarios
@@ -47,21 +47,10 @@ export class IndexdbService {
         objectStoreU.createIndex('tx_clave','tx_clave',{unique:false});
         objectStoreU.createIndex('in_perfil','in_perfil',{unique:false});
         objectStoreU.createIndex('in_estado','in_estado',{unique:false});
+        objectStoreU.createIndex('tx_correo','tx_correo',{unique:false});
 
-
-        //tabla e las retenciones locales
-
-        // const objectRetenciones = db.createObjectStore('app_retenciones', { autoIncrement: true });
-        // objectRetenciones.createIndex("CardCode","CardCode",{unique:false});
-        // objectRetenciones.createIndex("WTCode","WTCode",{unique:false});
-        // objectRetenciones.createIndex("BaseType","BaseType",{unique:false});
-        // objectRetenciones.createIndex("U_BP_Base_Mi","U_BP_Base_Mi",{unique:false});
-        // objectRetenciones.createIndex("PrctBsAmnt","PrctBsAmnt",{unique:false});
-
-        //siguiente tabla
-        
       }
-      
+
     });
   }
 }

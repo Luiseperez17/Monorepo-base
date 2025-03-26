@@ -13,8 +13,8 @@ export class LoginDbService {
 
 
   // private db: IDBDatabase | undefined;
-  public dbName:any = (environment.demo) ? environment.dbNameDemo : environment.dbName;
-  public dbVersion:any = (environment.demo) ? environment.dbVersionDemo : environment.dbVersion;
+  public dbName:any = environment.dbName;
+  public dbVersion:any = environment.dbVersion;
 
   constructor() { }
 

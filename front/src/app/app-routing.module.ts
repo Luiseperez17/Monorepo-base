@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/pages/home/home.component';
-import { EnblancoComponent } from './components/pages/enblanco/enblanco.component';
-import { LoginComponent } from './components/pages/login/login.component';
-import { CrearUsuarioComponent } from './components/pages/configuracion/crear-usuario/crear-usuario.component';
-import { PerfilesComponent } from './components/pages/configuracion/perfiles/perfiles.component';
-import { ParametrizacionComponent } from './components/pages/configuracion/parametrizacion/parametrizacion.component';
-import { MiperfilComponent } from './components/pages/configuracion/miperfil/miperfil.component';
-import { ModulosComponent } from './components/pages/admin/modulos/modulos.component';
-import { PrimerIngresoComponent } from './components/pages/primer-ingreso/primer-ingreso.component';
-import { RecordarContrasenaComponent } from './components/pages/recordar-contrasena/recordar-contrasena.component';
+import { HomeComponent } from './features/home/home.component';
+import { EnblancoComponent } from './features/enblanco/enblanco.component';
+import { LoginComponent } from './features/login/login.component';
+import { CrearUsuarioComponent } from './features/configuracion/crear-usuario/crear-usuario.component';
+import { PerfilesComponent } from './features/configuracion/perfiles/perfiles.component';
+import { ParametrizacionComponent } from './features/configuracion/parametrizacion/parametrizacion.component';
+import { MiperfilComponent } from './features/configuracion/miperfil/miperfil.component';
+import { ModulosComponent } from './features/modulos/modulos.component';
+import { PrimerIngresoComponent } from './features/primer-ingreso/primer-ingreso.component';
+import { RecordarContrasenaComponent } from './features/recordar-contrasena/recordar-contrasena.component';
 
 
 const routes: Routes = [
