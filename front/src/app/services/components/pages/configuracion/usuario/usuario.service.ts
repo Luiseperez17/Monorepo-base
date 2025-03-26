@@ -8,8 +8,7 @@ import { environment } from 'src/environments/environment';
 export class UsuarioService {
 
   public env = environment;
-  public urlApi     = (this.env.demo) ? this.env.urlApiDemo : this.env.urlApi;
-  public urlPos = (this.env.demo) ? this.env.urlDemoPos : this.env.urlPos;
+  public urlApi     =  this.env.urlApi;
 
   constructor(private http:HttpClient,) { }
 

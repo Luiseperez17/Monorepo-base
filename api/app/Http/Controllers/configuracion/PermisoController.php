@@ -87,7 +87,7 @@ class PermisoController extends Controller
         }
     }
 
-    // Funcion para crear los permisos de un modulo 
+    // Funcion para crear los permisos de un modulo
     public function create(Request $request) {
         try {
             $data = $request->all();

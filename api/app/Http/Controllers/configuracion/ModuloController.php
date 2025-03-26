@@ -37,15 +37,15 @@ class ModuloController extends Controller
     {
         try {
             $menu = [];
-            $query = ModuloModel::select('idPadre')     
-            ->distinct()     
-            ->join('app_permisos_modulos as r', 'r.idModulo', '=', 'app_modulos._id')     
-            ->where('r.ver', 1)     
-            ->where('r.idPerfil', $request->idPerfil)     
-            ->where('app_modulos.eliminado', 0)     
-            ->where('app_modulos.estado', 1)     
-            ->orderBy('app_modulos.idPadre', 'ASC'); 
-            // $sql = $query->toSql(); dd($sql); 
+            $query = ModuloModel::select('idPadre')
+            ->distinct()
+            ->join('app_permisos_modulos as r', 'r.idModulo', '=', 'app_modulos._id')
+            ->where('r.ver', 1)
+            ->where('r.idPerfil', $request->idPerfil)
+            ->where('app_modulos.eliminado', 0)
+            ->where('app_modulos.estado', 1)
+            ->orderBy('app_modulos.idPadre', 'ASC');
+            // $sql = $query->toSql(); dd($sql);
             $modulosDistint = $query->get();
 
             $whereIn = [];
@@ -134,12 +134,12 @@ class ModuloController extends Controller
     // Funcion para eliminar un modulo
     public function delete(Request $request){
         $modulo = ModuloModel::find($request->_id);
-    
+
         if ($modulo) {
             $modulo->eliminado = 1;
             $modulo->estado = 0;
             $resultado = $modulo->save();
-    
+
             if($resultado){
                 return response()->json([
                     "mensaje"=>"El modulo se ha eliminado correctamente.",

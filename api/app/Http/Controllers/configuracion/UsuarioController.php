@@ -12,33 +12,33 @@ class UsuarioController extends Controller
 {
     //Funcion para mostrar usuarios activos
     public function index(){
-        $datos =  UsuarioModel::where('in_estado', 1) 
+        $datos =  UsuarioModel::where('in_estado', 1)
                                 ->get();
         return response()->json([
             "mensaje"=>"Lista de usuarios activos",
             "datos"=>$datos
-        ]);   
+        ]);
     }
 
     // Funcion para mostrar todos los usuarios
     public function indexEstados(){
         $datos =  UsuarioModel::where('in_estado', 1)
-                                ->where('in_estado',2) 
+                                ->where('in_estado',2)
                                 ->get();
         return response()->json([
             "mensaje"=>"Lista de usuarios activos e inactivos",
             "datos"=>$datos
-        ]);   
+        ]);
     }
 
     //Funcion para buscar usuario por el ID
     public function show(string $id){
         try {
             $resultado = UsuarioModel::where('in_estado', 1)
-                                    ->findOrFail($id);     
+                                    ->findOrFail($id);
             return response()->json([
                 "mensaje" => "Información del usuario",
-                "datos" => $resultado]);    
+                "datos" => $resultado]);
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 "mensaje" => "El usuario no está en la base de datos. Por favor verifique",
@@ -79,7 +79,7 @@ class UsuarioController extends Controller
                     "datos"=>array(0)
                 ]);
             }
-            
+
         } else {
             // Maneja el caso en el que el producto no sea encontrado
             return response()->json([
@@ -97,7 +97,7 @@ class UsuarioController extends Controller
         return response()->json([
             "mensaje" => "Lista de usuarios con perfil igual a 7",
             "datos" => $despachador
-        ]);   
+        ]);
     }
 
     // Funcion para mostrar usuarios de perfil despachador por tienda
@@ -109,7 +109,7 @@ class UsuarioController extends Controller
         return response()->json([
             "mensaje" => "Lista de usuarios con perfil igual a 7",
             "datos" => $despachador
-        ]);   
+        ]);
     }
 
     // funcion para mostrar usuarios de perfil transportador
@@ -120,7 +120,7 @@ class UsuarioController extends Controller
         return response()->json([
             "mensaje" => "Lista de usuarios con perfil igual a 8",
             "datos" => $transportador
-        ]);   
+        ]);
     }
 
     // Funcion para mostrar usuarios de perfil transportador por tienda
@@ -133,7 +133,7 @@ class UsuarioController extends Controller
         return response()->json([
             "mensaje" => "Lista de usuarios con perfil igual a 8",
             "datos" => $transportador
-        ]);   
+        ]);
     }
 
     // Funcion para mostrar usuario de perfil transportador por ID
@@ -145,7 +145,7 @@ class UsuarioController extends Controller
                                     ->first();
             return response()->json([
                 "mensaje" => "Información del usuario",
-                "datos" => $resultado]);    
+                "datos" => $resultado]);
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 "mensaje" => "El usuario no está en la base de datos. Por favor verifique",
@@ -153,7 +153,7 @@ class UsuarioController extends Controller
             ]);
         }
     }
-    
+
     // Funcion para actualizar contraseña de usuario
     public function actualizarContrasena(Request $request, $id_usuario) {
         $password = $request->input('tx_clave');

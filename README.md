@@ -8,3 +8,5 @@ Angular 18.2.11
   *Front install: 
   * npm install 
   * ng serve 
+
+Node 20.18.0

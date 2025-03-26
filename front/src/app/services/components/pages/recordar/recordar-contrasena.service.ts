@@ -9,7 +9,7 @@ export class RecordarContrasenaService {
 
 
   public env = environment;
-  public urlApi     = (this.env.demo) ? this.env.urlApiDemo : this.env.urlApi;
+  public urlApi     = this.env.urlApi;
 
   public rutaCambioContrasena = "https://recordar.xyroapps.com.co/api/change-password/";
 
@@ -32,4 +32,4 @@ export class RecordarContrasenaService {
     return this.http.post(this.rutaCambioContrasena, body);
   }
 
-} 
+}

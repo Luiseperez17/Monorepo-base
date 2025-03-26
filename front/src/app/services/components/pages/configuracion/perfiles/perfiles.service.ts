@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 export class PerfilesService {
 
   public env = environment;
-  public urlApi     = (this.env.demo) ? this.env.urlApiDemo : this.env.urlApi;
+  public urlApi     = this.env.urlApi;
   constructor(private http:HttpClient) { }
 
   getEstados():any{

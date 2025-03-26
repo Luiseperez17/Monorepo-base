@@ -7,12 +7,12 @@ import {environment} from 'src/environments/environment';
 })
 export class EnBlancoService {
   public enviroment = environment;
-  public urlApi     = (this.enviroment.demo) ? this.enviroment.urlApiDemo : this.enviroment.urlApi;
+  public urlApi     = this.enviroment.urlApi;
 
   constructor() { }
 
   getdata(parametro:any):any{
     //return this.http.get(this.urlApi+"items/"+parametro);
   }
- 
+
 }

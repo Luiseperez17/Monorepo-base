@@ -11,14 +11,12 @@ export class ModulosService {
   //autenticación para recibir respuesta del API
   public token:any = sessionStorage.getItem('token');
   public headers:any = {
-    'Authorization':`Bearer ${this.token}` 
+    'Authorization':`Bearer ${this.token}`
   };
 
 
-  private trasladoPendienteSubject = new BehaviorSubject<boolean>(false); // Estado de traslados pendientes
-  private trasladoSubscription: Subscription | undefined;
   public env = environment;
-  public urlApi     = (this.env.demo) ? this.env.urlApiDemo : this.env.urlApi;
+  public urlApi     = this.env.urlApi;
 
   constructor(private http:HttpClient) { }
 
@@ -50,44 +48,6 @@ export class ModulosService {
   }
   createPermisos(data:any,):any{
     return this.http.post(this.urlApi+"permisos",data);
-  }
-
-  getMisTraslados(almacen: any): any {
-    return this.http.get(this.urlApi + "wms/trasladosmercancia/bodega/origen/" + almacen);
-  }
-
-  // Método para iniciar la verificación periódica de traslados
-  iniciarVerificacionTraslados(almacen: string): void {
-    // Ejecuta la consulta cada 30 segundos
-    this.trasladoSubscription = interval(300000) // Intervalo de 5 minutos
-      .pipe(
-        switchMap(() => this.getMisTraslados(almacen)) // Realiza la consulta
-      )
-      .subscribe(
-        (response: any) => {
-          // Si hay traslados pendientes, emitimos `true`
-          if (response && response.datos.length > 0) {
-            this.trasladoPendienteSubject.next(response);
-          } else {
-            this.trasladoPendienteSubject.next(false);
-          }
-        },
-        (error) => {
-          console.error('Error al verificar traslados:', error);
-        }
-      );
-  }
-
-  // Método para detener la verificación de traslados
-  detenerVerificacionTraslados(): void {
-    if (this.trasladoSubscription) {
-      this.trasladoSubscription.unsubscribe();
-    }
-  }
-
-  // Observable para obtener el estado de traslados pendientes
-  getTrasladosPendientes$() {
-    return this.trasladoPendienteSubject.asObservable();
   }
 
 

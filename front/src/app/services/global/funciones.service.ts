@@ -13,7 +13,7 @@ export class FuncionesService {
   login: any;
   isLoginPage: boolean = false;
   public env = environment;
-  public urlApi     = (this.env.demo) ? this.env.urlApiDemo : this.env.urlApi;
+  public urlApi     = this.env.urlApi;
 
   constructor(private http: HttpClient) { }
 
@@ -36,7 +36,7 @@ export class FuncionesService {
       }
     });
   }
-  
+
   //funcion que permite crear una alerta
   alerta(titulo:any,mensaje:any,tipo:any,callback:any) {
       Swal.fire({
@@ -112,7 +112,7 @@ export class FuncionesService {
   formatNumberWithThousandsSeparator(number:any) {
     // Convierte el número a una cadena
     let numberString = number.toString();
-    
+
     // Usa una expresión regular para agregar los puntos como separadores de miles
     return numberString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
