@@ -35,6 +35,10 @@ out/
 /dist/
 !/src/assets/libs/   # <- Excepción explícita
 
+# Ignora SOLO la carpeta dist/ de producción (Angular)
+/dist/
+!/src/assets/libs/   # <- Excepción explícita
+
 # Ignorar archivos de caché
 .cache/
 *.tmp
