@@ -25,13 +25,15 @@ vendor/
 .env.production
 
 # Ignorar archivos de compilación y paquetes
-dist/
 build/
 out/
 *.exe
 *.dll
 *.so
 *.dylib
+# Ignora SOLO la carpeta dist/ de producción (Angular)
+/dist/
+!/src/assets/libs/   # <- Excepción explícita
 
 # Ignorar archivos de caché
 .cache/
