@@ -31,6 +31,9 @@ out/
 *.dll
 *.so
 *.dylib
+# Ignora SOLO la carpeta dist/ de producción (Angular)
+/dist/
+!/src/assets/libs/   # <- Excepción explícita
 
 # Ignora SOLO la carpeta dist/ de producción (Angular)
 /dist/
