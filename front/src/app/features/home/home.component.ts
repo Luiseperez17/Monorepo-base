@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FuncionesService } from 'src/app/services/global/funciones.service';
+import { ModulosService } from 'src/app/services/components/admin/modulos/modulos.service';
 
 @Component({
   selector: 'app-home',
@@ -13,8 +14,9 @@ export class HomeComponent implements OnInit{
   perfil:any;
   tituloModulo:any = "Bienvenido";
   EmpresaGeneral:any;
+  public listaModulos:any;
 
-  constructor(public router:Router, private funciones:FuncionesService){}
+  constructor(public router:Router, private funciones:FuncionesService, private modulosService:ModulosService){}
 
   ngOnInit(): void {
     this.EmpresaGeneral= localStorage.getItem('empresa');
@@ -38,8 +40,13 @@ export class HomeComponent implements OnInit{
       this.tituloModulo = "Petus te da la Bienvenida";
     }
 
+    this.getMenu();
 
+  }
 
-
+  getMenu(){
+    this.modulosService.getModulosPorPadre(80).subscribe((json:any)=>{
+      this.listaModulos = json["datos"];
+    });
   }
 }
