@@ -27,6 +27,7 @@ import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
 import { MenuService } from './core/menu.service';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { RecordarContrasenaComponent } from './features/recordar-contrasena/recordar-contrasena.component';
+import { BannerCabeceraComponent } from './core/layout/banner-cabecera/banner-cabecera.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -46,18 +47,21 @@ import { RecordarContrasenaComponent } from './features/recordar-contrasena/reco
         PrimerIngresoComponent,
         RecordarContrasenaComponent,
     ],
-    bootstrap: [AppComponent], imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    AngularSignaturePadModule,
-    NgSelectModule,
-    ZXingScannerModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        // Register the ServiceWorker as soon as the application is stable
-        // or after 30 seconds (whichever comes first).
-        registrationStrategy: 'registerWhenStable:30000'
-    })],
+    bootstrap: [AppComponent],
+    imports: [
+      BrowserModule,
+      AppRoutingModule,
+      FormsModule,
+      AngularSignaturePadModule,
+      NgSelectModule,
+      ZXingScannerModule,
+      ServiceWorkerModule.register('ngsw-worker.js', {
+          enabled: !isDevMode(),
+          // Register the ServiceWorker as soon as the application is stable
+          // or after 30 seconds (whichever comes first).
+          registrationStrategy: 'registerWhenStable:30000'
+      }),
+      BannerCabeceraComponent
+    ],
     providers: [MenuService, DatePipe, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

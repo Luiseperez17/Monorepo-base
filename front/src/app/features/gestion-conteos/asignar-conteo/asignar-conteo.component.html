@@ -1,0 +1,52 @@
+<!-- contenido central-->
+<div class="container-fluid">
+  <app-banner-cabecera [tituloModulo]="'Asignar Conteo'"></app-banner-cabecera>
+<div>
+  <fieldset class="rw-field">
+      <h4 class="Titulo">Formulario para Asignar Conteo</h4>
+
+      <form action="" (submit)="setAsignarConteo()">
+
+        <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+            <label for="txtCodAsig" class="form-label">Código</label>
+            <input type="text" class="form-control" id="txtCodAsig" name="txtCodAsig" disabled="disabled">
+        </div>
+        <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+            <label class="form-label" for="cboUsuAsign">Usuario:</label>
+            <select name="cboUsuAsign" id="cboUsuAsign" class="form-select" [(ngModel)]="usuario.tx_usuario">
+                <option value="0">-- Seleccione Usuario --</option>
+            </select>
+        </div>
+        <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+            <label class="form-label" for="cboBodegaAsig">Bodega:</label>
+            <select name="cboBodegaAsig" id="cboBodegaAsig" class="form-select" [(ngModel)]="usuario.tx_bodega">
+                <option value="0">-- Seleccione Bodega --</option>
+            </select>
+        </div>
+
+        <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+            <label class="form-label" for="cboNumConAsg">Numero Conteo:</label>
+            <select name="cboNumConAsg" id="cboNumConAsg" class="form-select" [(ngModel)]="usuario.tx_conteo">
+                <option value="0">-- Seleccione Conteo --</option>
+                <option value="1">Primer Conteo</option>
+                <option value="2">Segundo Conteo</option>
+                <option value="3">Tercer Conteo</option>
+                <option value="4">Vencidos</option>
+            </select>
+        </div>
+        <!-- <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+          <label class="form-label" for="chkManjLote" class="csLote">Manejo Lote</label>
+            <input type="checkbox" id="chkManjLote" name="chkManjLote" class="chkLote">
+        </div> -->
+        <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+            <label class="form-label" for="fechAsignada">Fecha Actual:</label>
+            <input class="form-control" type="date" id="fechAsignada" name="fechAsignada" value=""><br><br>
+        </div>
+        <div class="container col-10 col-sm-10 col-md-10 col-lg-4 d-flex justify-content-center mt-4">
+          <!-- <button type="submit" class="btn btn-primary botonSilveragro" *ngIf="creaUsuario">Crear</button> -->
+          <button type="submit" class="btn btn-primary botonSilveragro mt-4" >Crear</button>
+        </div>
+      </form>
+
+  </fieldset>
+</div>

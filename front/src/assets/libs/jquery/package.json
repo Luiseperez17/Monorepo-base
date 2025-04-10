@@ -23,7 +23,9 @@
     "url": "https://github.com/jquery/jquery/issues"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "file:"
+  },
   "devDependencies": {
     "@babel/core": "7.3.3",
     "@babel/plugin-transform-for-of": "7.2.0",

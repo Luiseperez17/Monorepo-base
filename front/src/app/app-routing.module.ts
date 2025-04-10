@@ -10,6 +10,7 @@ import { MiperfilComponent } from './features/configuracion/miperfil/miperfil.co
 import { ModulosComponent } from './features/modulos/modulos.component';
 import { PrimerIngresoComponent } from './features/primer-ingreso/primer-ingreso.component';
 import { RecordarContrasenaComponent } from './features/recordar-contrasena/recordar-contrasena.component';
+import { AsignarConteoComponent } from './features/gestion-conteos/asignar-conteo/asignar-conteo.component';
 
 
 const routes: Routes = [
@@ -23,7 +24,14 @@ const routes: Routes = [
   { path: 'modulos/:id', component:ModulosComponent },
   { path: 'primer-ingreso', component:PrimerIngresoComponent },
   { path: 'recordarContrasena', component: RecordarContrasenaComponent},
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: 'gestion-conteos',
+    children: [
+      { path: 'asignar-conteo/:id', component: AsignarConteoComponent },
+
+    ]
+  },
 ];
 
 @NgModule({

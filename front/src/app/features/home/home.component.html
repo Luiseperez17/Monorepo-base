@@ -28,7 +28,7 @@
         <ng-container *ngFor="let modulo of listaModulos; let i = index">
           <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
             <div class="card text-center shadow-sm" style="width: 100%; max-width: 200px;">
-              <a [routerLink]="['/ruta-del-modulo', modulo.id]" class="text-decoration-none">
+              <a [routerLink]="getRouterLink(modulo)" class="text-decoration-none">
                 <div class="card-body">
                   <!-- Icono del módulo -->
                   <i class="{{modulo.iconoModulo}} text-primary" style="font-size: 5rem;"></i>

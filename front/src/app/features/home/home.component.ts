@@ -49,4 +49,9 @@ export class HomeComponent implements OnInit{
       this.listaModulos = json["datos"];
     });
   }
+
+  getRouterLink(modulo: any): string[] {
+    const urlSegments = modulo.urlModulo.split('/');
+    return ['/', ...urlSegments, modulo._id];
+  }
 }
