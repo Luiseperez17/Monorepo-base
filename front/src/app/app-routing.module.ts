@@ -11,6 +11,11 @@ import { ModulosComponent } from './features/modulos/modulos.component';
 import { PrimerIngresoComponent } from './features/primer-ingreso/primer-ingreso.component';
 import { RecordarContrasenaComponent } from './features/recordar-contrasena/recordar-contrasena.component';
 import { AsignarConteoComponent } from './features/gestion-conteos/asignar-conteo/asignar-conteo.component';
+import { ConteoInventarioComponent } from './features/gestion-conteos/conteo-inventario/conteo-inventario.component';
+import { ConteoVencidosComponent } from './features/gestion-conteos/conteo-vencidos/conteo-vencidos.component';
+import { ConteoDiferenciasComponent } from './features/gestion-conteos/conteo-diferencias/conteo-diferencias.component';
+import { ConteoDiferenciasSapComponent } from './features/gestion-conteos/conteo-diferencias-sap/conteo-diferencias-sap.component';
+import { InfoConteoComponent } from './features/gestion-conteos/info-conteo/info-conteo.component';
 
 
 const routes: Routes = [
@@ -29,6 +34,11 @@ const routes: Routes = [
     path: 'gestion-conteos',
     children: [
       { path: 'asignar-conteo/:id', component: AsignarConteoComponent },
+      { path: 'conteo-inventario/:id', component: ConteoInventarioComponent },
+      { path: 'conteo-vencidos/:id', component: ConteoVencidosComponent },
+      { path: 'conteo-diferencias/:id', component: ConteoDiferenciasComponent },
+      { path: 'diferencias-sap/:id', component: ConteoDiferenciasSapComponent },
+      { path: 'info-conteo/:id', component: InfoConteoComponent	},
 
     ]
   },

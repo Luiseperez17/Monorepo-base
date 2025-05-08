@@ -1,73 +1,118 @@
-<!-- contenido central-->
-<div class="container-fluid">
+<app-banner-cabecera [tituloModulo]="'Asignar Conteo'"></app-banner-cabecera>
 
-  <app-banner-cabecera [tituloModulo]="'Asignar Conteo'"></app-banner-cabecera>
+<div class="container">
+  <h4 class="Titulo">Formulario para Asignar Conteo</h4>
 
-  <div class="container">
-    <h4 class="Titulo">Formulario para Asignar Conteo</h4>
-  
-    <form action="" (submit)="setAsignarConteo()">
+  <form action="" (submit)="setAsignarConteo()">
+    <div class="row mb-3">
       <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
-          <label for="txtCodAsig" class="form-label">Código</label>
-          <input type="text" class="form-control" id="txtCodAsig" name="txtCodAsig" disabled="disabled">
+        <label for="txtCodAsig" class="form-label">Código <sub>(se genera despues de guardar)</sub></label>
+        <input type="text" class="form-control" id="txtCodAsig" name="txtCodAsig" disabled="disabled" [(ngModel)]="conteo.id">
       </div>
       <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
-          <label class="form-label" for="cboUsuAsign">Usuario:</label>
-          <select name="cboUsuAsign" id="cboUsuAsign" class="form-select" [(ngModel)]="usuario.tx_usuario">
-              <option value="0">-- Seleccione Usuario --</option>
-          </select>
+        <label class="form-label" for="id_usuario_asignado">Usuario:</label>
+        <select name="id_usuario_asignado" id="id_usuario_asignado" class="form-select" [(ngModel)]="conteo.id_usuario_asignado">
+          <option value="0">-- Seleccione Usuario --</option>
+          <option *ngFor="let user of listaUsuarios" [value]="user.id_usuario">{{ user.tx_nombre }}</option>
+        </select>
       </div>
       <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
-          <label class="form-label" for="cboBodegaAsig">Bodega:</label>
-          <select name="cboBodegaAsig" id="cboBodegaAsig" class="form-select" [(ngModel)]="usuario.tx_bodega">
-              <option value="0">-- Seleccione Bodega --</option>
-          </select>
+        <label class="form-label" for="codigo_bodega">Bodega:</label>
+        <select name="codigo_bodega" id="codigo_bodega" class="form-select" [(ngModel)]="conteo.codigo_bodega" (change)="consultaListasDiferencias()">
+          <option value="0">-- Seleccione Bodega --</option>
+          <option *ngFor="let bodega of listaBodegas" [value]="bodega.id_codigo_bodega">{{ bodega.tx_descrip_bodega }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+        <label class="form-label" for="numero_conteo">Numero Conteo:</label>
+        <select name="numero_conteo" id="numero_conteo" class="form-select" [(ngModel)]="conteo.numero_conteo" (change)="consultaListasDiferencias()">
+          <option value="0">-- Seleccione Conteo --</option>
+          <option value="1">Primer Conteo</option>
+          <option value="2">Segundo Conteo</option>
+          <option value="3">Tercer Conteo</option>
+          <option value="4">Vencidos</option>
+          <option value="5">Conteo Diferencia SAP</option>
+        </select>
       </div>
       <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
-          <label class="form-label" for="cboNumConAsg">Numero Conteo:</label>
-          <select name="cboNumConAsg" id="cboNumConAsg" class="form-select" [(ngModel)]="usuario.tx_conteo">
-              <option value="0">-- Seleccione Conteo --</option>
-              <option value="1">Primer Conteo</option>
-              <option value="2">Segundo Conteo</option>
-              <option value="3">Tercer Conteo</option>
-              <option value="4">Vencidos</option>
-          </select>
+        <label class="form-label" for="fecha_asignado">Fecha Actual:</label>
+        <input class="form-control" type="date" id="fecha_asignado" name="fecha_asignado" value="" [(ngModel)]="conteo.fecha_asignado" disabled="disabled">
       </div>
-      <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
-          <label class="form-label" for="fechAsignada">Fecha Actual:</label>
-          <input class="form-control" type="date" id="fechAsignada" name="fechAsignada" value=""><br><br>
-      </div>
-      <div class="container col-10 col-sm-10 col-md-10 col-lg-4 d-flex justify-content-center mt-4">
-        <!-- <button type="submit" class="btn btn-primary botonSilveragro" *ngIf="creaUsuario">Crear</button> -->
-        <button type="submit" class="btn btn-primary botonSilveragro mt-4" >Crear</button>
-      </div>
-    </form>
-  </div>
+    </div>
 
-  <!-- Tabla para listar los conteos -->
-  <div class="container mt-5">
+    <!-- Mostrar solo si es conteo de diferencia o tercer conteo -->
+    <div *ngIf="conteo.numero_conteo == '3' || conteo.numero_conteo == '5'">
+      <div class="row mb-3">
+         <div class="container col-12 col-md-12 mt-4 text-center">
+           <h4>Rango a contar</h4>
+           <hr>
+         </div>
+       </div>
+       <div class="row mb-3">
+         <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+           <label class="form-label" for="articulo_inicial">Articulo Inicial:</label>
+           <select name="articulo_inicial" id="articulo_inicial" class="form-select" [(ngModel)]="conteo.articulo_inicial" (change)="listaArticuloFinal()">
+            <option value="0">-- Seleccione articulo inicial --</option>
+            <option *ngFor="let art of listaDiferencias" [value]="art.codigo_sap">{{ art.codigo_sap }} - {{ art.descripcion_articulo }}</option>
+           </select>
+         </div>
+         <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+           <label class="form-label" for="articulo_final">Articulo Final:</label>
+           <select name="articulo_final" id="articulo_final" class="form-select" [(ngModel)]="conteo.articulo_final">
+            <option value="0">-- Seleccione articulo final --</option>
+            <option *ngFor="let art of listaDiferenciaArtFinal" [value]="art.codigo_sap">{{ art.codigo_sap }} - {{ art.descripcion_articulo }}</option>
+           </select>
+         </div>
+       </div>
+    </div> 
+    <div class="container col-10 col-sm-10 col-md-10 col-lg-4 d-flex justify-content-center mt-4">
+      <button *ngIf="!conteo.id" type="submit" class="btn btn-primary botonSilveragro mt-4" (click)="setAsignarConteo()">Asignar</button>
+      <button *ngIf="conteo.id" type="button" class="btn btn-success botonSilveragro mt-4" (click)="actualizarConteo()"> Actualizar </button>
+      <button *ngIf="conteo.id" type="button" class="btn btn-secondary botonSilveragro mt-4 ms-2" (click)="cancelarEdicion()"> Cancelar </button>
+    </div>
+  </form>
+</div>
+
+<!-- Tabla para listar los conteos -->
+<div class="container mt-5">
+  <div class="row">
     <h4 class="float-start" style="text-align: left;" width="100%">Listado de Conteos</h4>
-    <table class="table table-bordered table-striped">
-      <thead class="table-dark">
-        <tr>
-          <th>Código</th>
-          <th>Usuario</th>
-          <th>Bodega</th>
-          <th>Número Conteo</th>
-          <th>Fecha</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let conteo of listaConteos">
-          <td>{{ conteo.codigo }}</td>
-          <td>{{ conteo.usuario }}</td>
-          <td>{{ conteo.bodega }}</td>
-          <td>{{ conteo.numeroConteo }}</td>
-          <td>{{ conteo.fecha }}</td>
-          <td>{{ conteo.estado }}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
+  <table class="table table-bordered table-striped" id="tablaConteos">
+    <thead class="table-dark">
+      <tr>
+        <th>Código</th>
+        <th>Usuario</th>
+        <th>Bodega</th>
+        <th>Número Conteo</th>
+        <th>Fecha</th>
+        <th>Art. Inicial</th>
+        <th>Art. Final</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let conteo of listaConteos">
+        <td>{{ conteo.id }}</td>
+        <td>{{ obtenerNombreUsuario(conteo.id_usuario_asignado) }}</td>
+        <td>{{ conteo.codigo_bodega }}</td>
+        <td>{{ nombreConteo(conteo.numero_conteo) }}</td>
+        <td>{{ conteo.fecha_asignado }}</td>
+        <td>{{ conteo.articulo_inicial }}</td>
+        <td>{{ conteo.articulo_final }}</td>
+        <td>{{ getEstadoDescripcion(conteo.estado_conteo) }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm me-2" (click)="editarConteo(conteo)" title="Editar">
+            <i class="ti ti-pencil"></i>
+          </button>
+          <button class="btn btn-danger btn-sm" (click)="eliminarConteo(conteo.id)" title="Eliminar">
+            <i class="ti ti-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

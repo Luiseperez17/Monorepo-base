@@ -1,0 +1,52 @@
+
+<app-banner-cabecera [tituloModulo]="'Conteo de Diferencias'"></app-banner-cabecera>
+
+<div class="container">
+    <div class="row">
+        <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+            <label class="form-label" for="codigo_bodega">Bodega:</label>
+            <select name="codigo_bodega" id="codigo_bodega" class="form-select" [(ngModel)]="bodegaSeleccionada" (change)="consultarConteosAsignados()">
+              <option value="0">-- Seleccione Bodega --</option>
+              <option *ngFor="let bodega of listaBodegas" [value]="bodega.id_codigo_bodega">{{ bodega.tx_descrip_bodega }}</option>
+            </select>
+        </div>
+        <div class="container col-10 col-sm-10 col-md-10 col-lg-6 float-start">
+            <button class="btn btn-primary">TERMINAR CONTEO</button>
+        </div>
+        <div class="container col-12 col-sm-12 col-md-10 col-lg-12 float-start mt-2">
+            <h4 class="Titulo">Listado de diferencias entre el Primer y Segundo Conteo</h4>
+        </div>
+        <div class="container col-12 col-sm-12 col-md-10 col-lg-12 float-start mt-2">
+            <table class="table table-bordered table-striped table-hover table-sm">
+                <thead class="table-dark>">
+                    <tr>
+                        <th scope="col">Bodega</th>
+                        <th scope="col">Código SAP</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Lote</th>
+                        <th scope="col">F. Vence</th>
+                        <th scope="col">Conteo 1</th>
+                        <th scope="col">Conteo 2</th>
+                        <th scope="col">Diferencia</th>
+                        <th scope="col">SAP</th>
+                        <th scope="col">Corrección</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of conteosDiferencias">
+                        <td>{{ item.codigo_bodega }}</td>
+                        <td>{{ item.codigo_sap }}</td>
+                        <td>{{ item.descripcion_articulo }}</td>
+                        <td>{{ item.lote_articulo }}</td>
+                        <td>{{ item.fecha_vence }}</td>
+                        <td>{{ item.cantidad_conteo_1 }}</td>
+                        <td>{{ item.cantidad_conteo_2 }}</td>
+                        <td>{{ item.diferencia }}</td>
+                        <td>{{ item.cantidad_sap }}</td>
+                        <td contenteditable="true">{{ item.cantidad_correccion }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

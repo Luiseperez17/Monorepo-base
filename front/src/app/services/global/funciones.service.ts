@@ -38,7 +38,7 @@ export class FuncionesService {
   }
 
   //funcion que permite crear una alerta
-  alerta(titulo:any,mensaje:any,tipo:any,callback:any) {
+  alerta(titulo:any,mensaje:any,tipo:any,callback?: () => void ) {
       Swal.fire({
           title: titulo,
           html: mensaje,
@@ -47,7 +47,9 @@ export class FuncionesService {
           confirmButtonText: 'Aceptar'
         })
         .then(() => {
-          return callback();
+          if (callback) {
+            return callback();
+          }
       });
   }
 

@@ -1,0 +1,10 @@
+
+<app-banner-cabecera [tituloModulo]="'Conteo de Inventario'"></app-banner-cabecera>
+
+<app-formulario-conteo #formularioConteo [conteoAsignado]="conteoAsignado" (formSubmit)="handleFormSubmit($event)"></app-formulario-conteo>
+
+<div class="container mt-2 float-start">
+    <!-- <button class="btn btn-success mt-4" (click)="ejecutarSubmit()">Guardar</button> -->
+    <button class="btn btn-primary botonSilveragro mt-2 ms-2 float-start">Finalizar Conteo</button>
+    <button class="btn btn-primary botonSilveragro mt-2 ms-2 float-start">Limpiar</button>
+</div>

@@ -1,0 +1,41 @@
+<app-banner-cabecera [tituloModulo]="'Informe de Conteo'"></app-banner-cabecera>
+
+<form (submit)="onSubmit()">
+    <!-- Campo Bodega -->
+    <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+      <label class="form-label" for="cboBodega">Bodega:</label>
+      <select name="cboBodega" id="cboBodega" class="form-select" [(ngModel)]="conteo.tx_bodega">
+        <option value="0">-- Seleccione Bodega --</option>
+        <option value="1">Bodega 1</option>
+        <option value="2">Bodega 2</option>
+        <option value="3">Bodega 3</option>
+      </select>
+    </div>
+
+    <!-- Campo Número de Conteo 1 -->
+    <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+      <label class="form-label" for="cboNumCon1">Número de Conteo 1:</label>
+      <select name="cboNumCon1" id="cboNumCon1" class="form-select" [(ngModel)]="conteo.tx_numConteo1">
+        <option value="0">-- Seleccione Conteo 1 --</option>
+        <option value="1">Primer Conteo</option>
+        <option value="2">Segundo Conteo</option>
+        <option value="3">Tercer Conteo</option>
+      </select>
+    </div>
+
+    <!-- Campo Número de Conteo 2 -->
+    <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+      <label class="form-label" for="cboNumCon2">Número de Conteo 2:</label>
+      <select name="cboNumCon2" id="cboNumCon2" class="form-select" [(ngModel)]="conteo.tx_numConteo2">
+        <option value="0">-- Seleccione Conteo 2 --</option>
+        <option value="1">Primer Conteo</option>
+        <option value="2">Segundo Conteo</option>
+        <option value="3">Tercer Conteo</option>
+      </select>
+    </div>
+
+    <!-- Botón de Enviar -->
+    <div class="container col-10 col-sm-10 col-md-10 col-lg-4 d-flex justify-content-center mt-4">
+      <button type="submit" class="btn btn-primary botonSilveragro mt-4">Generar Informe</button>
+    </div>
+</form>
