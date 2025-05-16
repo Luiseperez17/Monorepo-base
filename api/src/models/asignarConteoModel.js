@@ -46,7 +46,7 @@ const AsignarConteo = sequelize.define(
             defaultValue: null
         },
         fecha_finaliza_conteo: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.DATE,
             defaultValue: null
         }
     }, {

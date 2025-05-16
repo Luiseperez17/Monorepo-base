@@ -4,7 +4,7 @@ const sequelize = require("../config/db");
 const app_lotes = sequelize.define(
     "app_lotes", 
     {
-        cod_sap_articulo: {
+        codigo_sap: {
             type: DataTypes.STRING,
             allowNull: false
         },

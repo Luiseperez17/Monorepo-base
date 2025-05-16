@@ -20,4 +20,10 @@ export class ConteoInventarioService {
   obtenerConteosAsignadosVencidos(idUsuario: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/asignados-vencidos/${idUsuario}`);
   }
+
+  // finalizar conteo
+  finalizarConteo(id_conteo: any): Observable<any> {
+    const url = `${this.apiUrl}/finalizar/${id_conteo}`;
+    return this.http.get<any>(url);
+  }
 }

@@ -90,6 +90,38 @@ exports.actualizar = async (req, res) => {
     }
 };
 
+exports.finalizarConteo = async (req, res) => {
+    const { id } = req.params;
+    const data = {
+        estado_conteo: 2, // Cambiar el estado a 2 (finalizado)
+        fecha_finaliza_conteo: new Date() // Asignar fecha de finalizado
+    }; 
+
+    try {
+        const resultado = await Modelo.update(data, { where: { id: id } });
+
+        if (resultado[0] > 0) {
+            return res.status(200).json({
+                estado: 'ok',
+                mensaje: "Registro actualizado de manera correcta",
+                datos: resultado
+            });
+        } else {
+            return res.status(200).json({
+                estado: 'error',
+                mensaje: "El registro no se ha podido actualizar",
+                datos: resultado
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            estado: 'error',
+            mensaje: "No se ha podido actualizar el registro",
+            error: error.message
+        });
+    }
+};
+
 exports.borrar = async (req, res) => {
     const { id } = req.params; // Se obtiene el ID del registro desde la URL
 

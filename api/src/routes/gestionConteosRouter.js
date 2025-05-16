@@ -15,6 +15,7 @@ router.get("/asignar-conteo/asignados/:idUser",asignarConteoController.conteosUs
 router.get("/asignar-conteo/asignados-vencidos/:idUser",asignarConteoController.conteosUsuarioVencidos);
 router.get("/asignar-conteo/dif/:idBodega",asignarConteoController.difConteosBodega);
 router.get("/asignar-conteo/dif-sap/:idBodega",asignarConteoController.difSapConteosBodega);
+router.get("/asignar-conteo/finalizar/:id",asignarConteoController.finalizarConteo);
 
 //Endpoints para gestion de bodegas
 router.get("/bodegas/list",bodegasController.listar);

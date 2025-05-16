@@ -9,7 +9,7 @@ Modulo.hasMany(Permiso, { foreignKey: "idModulo", as: "permisos" });
 Permiso.belongsTo(Modulo, { foreignKey: "idModulo", as: "modulo" });
 
 // relación entre lotes y existencias
-ExistenciaSap.hasMany(Lote, { foreignKey: "cod_sap_articulo", sourceKey: "cod_sap_articulo", as: "lotes" });
-Lote.belongsTo(ExistenciaSap, { foreignKey: "cod_sap_articulo", targetKey: "cod_sap_articulo", as: "existencia" });
+ExistenciaSap.hasMany(Lote, { foreignKey: "codigo_sap", sourceKey: "codigo_sap", as: "lotes" });
+Lote.belongsTo(ExistenciaSap, { foreignKey: "codigo_sap", targetKey: "codigo_sap", as: "existencia" });
 
 module.exports = { Modulo, Permiso, Lote, ExistenciaSap };

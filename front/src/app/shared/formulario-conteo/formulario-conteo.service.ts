@@ -20,4 +20,16 @@ export class FormularioConteoService {
     const url = `${this.apiUrl}/articulo/${idConteo}/${codigoBarras}`;
     return this.http.get<any>(url);
   }
+
+  // guardar conteo 
+  guardarConteo(conteo: any): Observable<any> {
+    const url = `${this.apiUrl}/create`;
+    return this.http.post<any>(url, conteo);
+  }
+
+  // actualizar conteo 
+  actualizarConteo(conteo: any): Observable<any> {
+    const url = `${this.apiUrl}/update/${conteo.id}`;
+    return this.http.put<any>(url, conteo);
+  }
 }

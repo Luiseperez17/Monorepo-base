@@ -10,11 +10,7 @@ export interface Conteo  {
     descripcion_articulo: string; // Descripcion Artículo
     lote_articulo: string; // Lote
     fecha_vence: string | Date; // Fecha Vencimiento
-    existencias_sap: number; // Cantidad en SAP
-    primer_conteo: number | null; // Cantidad contada
-    segundo_conteo: number | null; // Cantidad contada
-    diff_pri_seg_conteo: number; // Diferencia entre primer y segundo conteo
-    tercer_conteo: number | null; // Cantidad contada
+    cantidad_contada: number | null; // Cantidad contada
     correccion_conteo: number | null; // Fecha Vencimiento
     id_usuario_corrige: number | null; // Fecha Vencimiento
   };

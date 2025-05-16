@@ -56,11 +56,13 @@ exports.crear = async (req, res) => {
         const resultado = await Modelo.create(data);
 
         return res.status(201).json({
+            estado: 'ok',
             mensaje: "Registro insertado de manera correcta",
             datos: resultado
         });
     } catch (error) {
         return res.status(500).json({
+            estado: 'error',
             mensaje: "No se ha podido insertar el registro.",
             error: error.message
         });
@@ -72,15 +74,17 @@ exports.actualizar = async (req, res) => {
     const data = req.body;
 
     try {
-        const resultado = await Modelo.update(data, { where: { _id: id } });
+        const resultado = await Modelo.update(data, { where: { id: id } });
 
         if (resultado[0] > 0) {
             return res.status(200).json({
+                estado: 'ok',
                 mensaje: "Registro actualizado de manera correcta",
                 datos: resultado
             });
         } else {
             return res.status(200).json({
+                estado: 'error',
                 mensaje: "El registro no se ha podido actualizar",
                 datos: resultado
             });
@@ -111,11 +115,13 @@ exports.borrar = async (req, res) => {
         await registro.destroy();
 
         return res.status(200).json({
+            estado: 'ok',
             mensaje: "El registro se ha eliminado correctamente.",
             datos: [1]
         });
     } catch (error) {
         return res.status(500).json({
+            estado: 'error',
             mensaje: "Error interno al intentar eliminar el registro.",
             error: error.message
         });
@@ -153,7 +159,7 @@ exports.getArticulo = async (req, res) => {
         // primero vamos a consultar el conteo asignado para obtener la bodega
         const conteoAsignado = await conteoAsignadoModel.findByPk(idConteo);
 
-        // primero debemos obtener el codigo sap del articulo 
+        // luego debemos obtener el codigo sap del articulo 
         let codigo_sap = await getCodSap(codigoBarras);
         if (codigo_sap === null) {
             return res.status(404).json({
@@ -169,21 +175,47 @@ exports.getArticulo = async (req, res) => {
             }
         });
 
-        // ahora vamos a consultar los lotes del articulo 
-        const lotes = await existenciasSapModel.findAll({
-            attributes: ['codigo_bodega', 'cod_sap_articulo', 'lote_articulo', 'fecha_vence', 'stock'],
-            where: {
-                cod_sap_articulo: codigo_sap,
-                codigo_bodega: conteoAsignado.codigo_bodega,
-            },
-            order: [['stock', 'DESC'],['lote_articulo', 'ASC']],
-        });
-        const lotesPlano = lotes.map((lote) => lote.get({ plain: true }));
-        const articuloPlano = articulo[0].get({ plain: true });
+        let articuloPlano = articulo[0].get({ plain: true });
 
-        articuloPlano['lotes'] = lotesPlano;
+        // ahora vamos a consultar los lotes del articulo (solo si maneja lote) 
+        if (articulo[0]['maneja_lote'] === 'Y') {
+            const lotes = await existenciasSapModel.findAll({
+                attributes: ['codigo_bodega', 'codigo_sap', 'lote_articulo', 'fecha_vence', 'stock'],
+                where: {
+                    codigo_sap: codigo_sap,
+                    codigo_bodega: conteoAsignado.codigo_bodega,
+                },
+                order: [['stock', 'DESC'],['lote_articulo', 'ASC']],
+            });
+            const lotesPlano = lotes.map((lote) => lote.get({ plain: true }));
 
-        const resultado = articuloPlano; // Obtener el primer elemento del array de artículos
+            articuloPlano['lotes'] = lotesPlano;
+            
+        } else {
+
+            articuloPlano['lotes'] = []; // si no maneja lote, asignamos un array vacio
+            
+        }
+
+        // por ultimo vamos a si el articulo ya fue contado 
+        // solo si no maneja lote, si no debemos esperar a que el usuario seleccione el lote 
+        if (articulo[0]['maneja_lote'] === 'Y') {
+            
+            const articuloContado = await Modelo.findAll({
+                where: {
+                    numero_conteo: conteoAsignado.numero_conteo,
+                    codigo_bodega: conteoAsignado.codigo_bodega,
+                    codigo_barras: codigoBarras
+                },
+                order: [['id', 'DESC']]
+            });
+
+            articuloPlano['conteos'] = articuloContado.length > 0 ? articuloContado : null;
+        } else {
+            articuloPlano['conteos'] = []; // si maneja lote, no se consultan los conteos, se debe esperar a que el usuario seleccione el lote
+        }
+
+        const resultado = await articuloPlano; // asignar el resultado a la variable resultado
 
         return res.status(200).json({
             mensaje: "Datos consultados",

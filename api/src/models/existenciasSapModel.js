@@ -8,11 +8,11 @@ const app_existencias_sap = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false
         },
-        cod_sap_articulo: {
+        codigo_sap: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        cod_barras_articulo: {
+        codigo_barras: {
             type: DataTypes.STRING,
             allowNull: false
         },

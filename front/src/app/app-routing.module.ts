@@ -16,6 +16,7 @@ import { ConteoVencidosComponent } from './features/gestion-conteos/conteo-venci
 import { ConteoDiferenciasComponent } from './features/gestion-conteos/conteo-diferencias/conteo-diferencias.component';
 import { ConteoDiferenciasSapComponent } from './features/gestion-conteos/conteo-diferencias-sap/conteo-diferencias-sap.component';
 import { InfoConteoComponent } from './features/gestion-conteos/info-conteo/info-conteo.component';
+import { SincronizacionComponent } from './features/sincronizacion/sincronizacion.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'modulos/:id', component:ModulosComponent },
   { path: 'primer-ingreso', component:PrimerIngresoComponent },
   { path: 'recordarContrasena', component: RecordarContrasenaComponent},
+  { path: 'syncSAP/:id', component: SincronizacionComponent},
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'gestion-conteos',

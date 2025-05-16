@@ -66,13 +66,13 @@ async function getSap(endpoint, params = {}, prefer, pagination = false) {
 }
 
 //consultar todos los lotes
-async function getAll() {
+async function getLotesAll() {
   try {
-    console.log("getAllLotes");
+    console.log("getLotesAll");
 
     const endpoint  = 'BatchNumberDetails';
     const params    = {}; // No se necesitan parámetros para esta consulta (filtros)
-    const prefer    = ''; // No se necesita preferencia para esta consulta (filas por defecto)
+    const prefer    = 'odata.maxpagesize=1000'; // No se necesita preferencia para esta consulta (filas por defecto)
     
     const response = await getSap(endpoint, params, prefer)
     return response;
@@ -176,10 +176,97 @@ async function getProductosAll() {
     }
 }
 
+// servicio para consultar los codigos de barras existentes en SAP 
+async function getCodigosBarrasAll() {
+    try {
+        console.log("getCodigosBarrasAll");
+
+        const endpoint = 'BarCodes'; // Endpoint para obtener todos los productos
+        let params    = {
+            $select: 'ItemNo,Barcode', // Seleccionar solo los campos necesarios
+        };
+        const prefer    = 'odata.maxpagesize=1000'; //cantidad de rigistros
+        const pagination = true; // Habilitar paginación para obtener todos los productos
+        let productos = []; // Lista para almacenar todos los productos
+        let nextLink = null; // Variable para manejar la paginación
+        // const response = await getSap(endpoint || endpoint, params, prefer);
+        do {
+            // Realiza la solicitud al endpoint
+            const response = await getSap(nextLink || endpoint, params, prefer, pagination);
+
+            // limpiamos params ya que en nextLink ya viene el endpoint con los filtros
+            params = {};
+            
+            // Concatena los productos obtenidos en la respuesta
+            productos = productos.concat(response.value);
+
+            // Verifica si hay más páginas disponibles
+            nextLink = response['nextLink'] ? response['nextLink'].replace() : null;
+        } while (nextLink); // Continúa mientras haya un enlace a la siguiente página
+
+        return productos; // Devuelve la lista completa de productos
+        // return response; // Devuelve la lista completa de productos
+    } catch (error) {
+        console.error('Error al consultar todos los productos:', error.response ? error.response.data : error.message);
+        throw error; // Lanza el error para manejarlo en otro lugar
+    }
+}
+
+// servicio para consultar las existencias de los productos en SAP por bodega 
+async function getAllProductosPorBodega(warehouseCode) {
+  try {
+    const endpoint = '$crossjoin(Items,Items/ItemWarehouseInfoCollection)';
+    const prefer = 'odata.maxpagesize=1000';
+    
+    let params = {
+      $expand: 'Items($select=ItemCode,ItemName,BarCode),Items/ItemWarehouseInfoCollection($select=WarehouseCode,InStock,Committed,Ordered)',
+      $filter: `Items/ItemCode eq Items/ItemWarehouseInfoCollection/ItemCode and ` +
+               `Items/ItemWarehouseInfoCollection/WarehouseCode eq '${warehouseCode}'`
+    };
+
+    let productos = [];
+    let nextLink = null;
+    let pageCount = 0;
+    const pagination = true; // Habilitar paginación para obtener todos los productos
+
+    do {
+        pageCount++;
+        console.log(`Obteniendo página ${pageCount}...`);
+        
+        const response = await getSap(nextLink || endpoint, params, prefer, pagination);
+        //   return response;
+
+         // limpiamos params ya que en nextLink ya viene el endpoint con los filtros
+        params = {};
+        
+        // Concatena los productos obtenidos en la respuesta
+        productos = productos.concat(response.value);
+
+        // Verifica si hay más páginas disponibles
+        nextLink = response['nextLink'] ? response['nextLink'].replace() : null;
+
+      
+    } while (nextLink);
+
+    console.log(`Obtenidos ${productos.length} productos de ${pageCount} páginas`);
+    return productos;
+    
+  } catch (error) {
+    console.error('Error en getAllProductosPorBodega:', {
+      warehouseCode,
+      error: error.response?.data || error.message
+    });
+    throw error;
+  }
+}
+
+
 // Exporta la función para que pueda ser utilizada en otros archivos
 module.exports = {
-    getAll,
+    getLotesAll,
     getLotesByProductoAndTienda,
     getBodegasAll,
-    getProductosAll
+    getProductosAll,
+    getCodigosBarrasAll,
+    getAllProductosPorBodega
 };

@@ -1,0 +1,31 @@
+<app-banner-cabecera [tituloModulo]="'Sincronización con SAP'"></app-banner-cabecera>
+
+<button mat-raised-button class="btn btn-primary botonSilveragro" (click)="sincronizarSAP()">
+    SINCRONIZAR CON SAP
+</button>
+
+<div class="container mt-3 mb-3">
+    <h3 
+        class="mb-2" 
+        *ngFor="let tb of tablas"> 
+        {{ tb.nombre }} <small> ( {{ tb.estado ? 'sincronizando' : tb.registros }} )</small> 
+    </h3>
+
+    <br>
+    <h4 mt-4>* Selecccione la Bodega para sincronizar las existencias (stock)</h4>
+    <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start">
+        <label class="form-label" for="codigo_bodega">Bodega:</label>
+        <select name="codigo_bodega" id="codigo_bodega" class="form-select" [(ngModel)]="selectedBodega">
+          <option value="0">-- Seleccione Bodega --</option>
+          <option *ngFor="let bodega of listaBodegas" [value]="bodega.id_codigo_bodega">{{ bodega.tx_descrip_bodega }}</option>
+        </select>
+    </div>
+    <div class="container mt-4">
+        <button mat-raised-button class="btn btn-primary botonSilveragro mt-2" (click)="sincronizarExistencias()">
+            SINCRONIZAR EXISTENCIAS
+        </button>
+    </div>
+
+    <br>
+    <h3> {{ existencias.nombre }} ({{ existencias.estado ? 'sincronizando' : existencias.registros }})</h3>
+</div>

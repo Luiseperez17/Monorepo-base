@@ -72,7 +72,7 @@ const app_conteo = sequelize.define(
         },
         correccion_conteo: {
           type: DataTypes.INTEGER,
-          allowNull: false,
+          allowNull: true,
           defaultValue: 0,
           comment: "Cantidad Corregida (cuando se corrige)",
         },
