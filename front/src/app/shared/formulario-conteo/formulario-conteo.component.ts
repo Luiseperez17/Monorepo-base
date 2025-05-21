@@ -114,6 +114,22 @@ export class FormularioConteoComponent {
     // ahora vamos a tomar la fecha vencimiento del lote seleccionado
     const selectedLote = this.lotes.find(lote => lote.lote_articulo === this.conteo.lote_articulo);
     this.conteo.fecha_vence = selectedLote ? selectedLote.fecha_vence : ''; // Asignar la fecha de vencimiento al conteo
+
+    // luego de tener el lote seleccionado vamos a validar si existen conteos de ese erticulo y lote 
+    this,this.conteoService.consultarConteosArticuloLote(this.conteo.codigo_bodega, this.conteo.numero_conteo, this.conteo.codigo_sap, this.conteo.lote_articulo).subscribe(
+      (respuesta) => {
+        if (respuesta.datos) {
+          this.listaConteos = respuesta.datos; // Asignar los datos a la lista de conteos
+          console.log('Conteos encontrados:', this.listaConteos);
+        } else {
+          console.warn('No se encontraron conteos para el artículo y lote seleccionados.');
+        }
+      },
+      (error) => {
+        console.error('Error al consultar los conteos de artículo y lote:', error);
+      }
+    );
+
   }
 
   onSubmit() {
@@ -124,8 +140,6 @@ export class FormularioConteoComponent {
 
     // validar si es actualizar o crear 
     if (this.conteo.id) { // Si el conteo tiene un ID, significa que es una actualización
-      this.conteo.correccion_conteo = this.conteo.cantidad_contada; // Asignar la corrección de conteo
-      this.conteo.id_usuario_corrige = this.user.id_usuario; // Asignar el ID del usuario que corrige
 
       // actualizar conteo 
       this.conteoService.actualizarConteo(this.conteo).subscribe(
@@ -174,7 +188,6 @@ export class FormularioConteoComponent {
     // asignar los datos del conteo a editar al objeto conteo 
     this.conteo = { ...conteoEditar }; // Asignar los valores del conteo a editar al objeto conteo
     this.cantidadContada = conteoEditar.cantidad_contada; // Asignar la cantidad contada al input
-    this.conteo.id_usuario_corrige = this.user.id_usuario; // Asignar el ID del usuario que corrige al conteo
     
   }
 
@@ -201,5 +214,6 @@ export class FormularioConteoComponent {
     this.getLineaConteo(); // Reiniciar la línea de conteo
     this.cantidadContada = 0; // Reiniciar la cantidad contada
   }
+
 
 }

@@ -17,6 +17,7 @@ import { ConteoDiferenciasComponent } from './features/gestion-conteos/conteo-di
 import { ConteoDiferenciasSapComponent } from './features/gestion-conteos/conteo-diferencias-sap/conteo-diferencias-sap.component';
 import { InfoConteoComponent } from './features/gestion-conteos/info-conteo/info-conteo.component';
 import { SincronizacionComponent } from './features/sincronizacion/sincronizacion.component';
+import { InformesComponent } from './features/gestion-conteos/informes/informes.component';
 
 
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
       { path: 'conteo-diferencias/:id', component: ConteoDiferenciasComponent },
       { path: 'diferencias-sap/:id', component: ConteoDiferenciasSapComponent },
       { path: 'info-conteo/:id', component: InfoConteoComponent	},
+      { path: 'informes/:id', component: InformesComponent	},
 
     ]
   },

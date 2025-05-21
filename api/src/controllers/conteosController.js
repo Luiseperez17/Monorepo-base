@@ -1,4 +1,5 @@
 const Modelo = require("../models/conteosModel");
+const Usuario = require("../models/usuarioModel");
 const { Op } = require("sequelize"); // Importar operadores de Sequelize
 const codBarrasModel = require("../models/codBarrasModel");
 const articuloModel = require("../models/articuloModel");
@@ -179,11 +180,15 @@ exports.getArticulo = async (req, res) => {
 
         // ahora vamos a consultar los lotes del articulo (solo si maneja lote) 
         if (articulo[0]['maneja_lote'] === 'Y') {
+            let fechaActual = new Date();
+            // restar 4 años a la fecha actual 
+            let fechaMenos4anios = fechaActual.setFullYear(fechaActual.getFullYear() - 4);
+
             const lotes = await existenciasSapModel.findAll({
                 attributes: ['codigo_bodega', 'codigo_sap', 'lote_articulo', 'fecha_vence', 'stock'],
                 where: {
                     codigo_sap: codigo_sap,
-                    codigo_bodega: conteoAsignado.codigo_bodega,
+                    codigo_bodega: conteoAsignado.codigo_bodega
                 },
                 order: [['stock', 'DESC'],['lote_articulo', 'ASC']],
             });
@@ -201,18 +206,26 @@ exports.getArticulo = async (req, res) => {
         // solo si no maneja lote, si no debemos esperar a que el usuario seleccione el lote 
         if (articulo[0]['maneja_lote'] === 'Y') {
             
+            articuloPlano['conteos'] = []; // si maneja lote, no se consultan los conteos, se debe esperar a que el usuario seleccione el lote
+        } else {
+
             const articuloContado = await Modelo.findAll({
                 where: {
                     numero_conteo: conteoAsignado.numero_conteo,
                     codigo_bodega: conteoAsignado.codigo_bodega,
                     codigo_barras: codigoBarras
                 },
-                order: [['id', 'DESC']]
+                order: [['id', 'DESC']],
+                include: [
+                    {
+                        model: Usuario,
+                        as: 'usuarioAsignado', // Asegúrate que el alias coincida con la asociación definida en el modelo
+                        attributes: ['tx_nombre']
+                    }
+                ]
             });
 
-            articuloPlano['conteos'] = articuloContado.length > 0 ? articuloContado : null;
-        } else {
-            articuloPlano['conteos'] = []; // si maneja lote, no se consultan los conteos, se debe esperar a que el usuario seleccione el lote
+            articuloPlano['conteos'] = articuloContado.length > 0 ? articuloContado : [];
         }
 
         const resultado = await articuloPlano; // asignar el resultado a la variable resultado
@@ -235,7 +248,10 @@ getCodSap = async (codBarras) => {
         const resultado = await codBarrasModel.findAll({
             attributes: ['codigo_sap'],
             where: {
-                codigo_barras: codBarras
+            [Op.or]: [
+                { codigo_barras: codBarras },
+                { codigo_sap: codBarras }
+            ]
             }
         });
 
@@ -248,6 +264,45 @@ getCodSap = async (codBarras) => {
         return null;
     }
 }
+
+exports.getConteosArticuloLote = async (req, res) => {
+    const { bodega, numConteo, codigoSap, lote } = req.params; // Obtener el ID desde los parámetros de la URL
+
+    try {
+
+        // primero vamos a consultar si existen conteos para el articulo y lote
+        const articuloContado = await Modelo.findAll({
+            // attributes: ['usuarioAsignado.tx_nombre'],
+            where: {
+            codigo_bodega: bodega,
+            numero_conteo: numConteo,
+            codigo_sap: codigoSap,
+            lote_articulo: lote
+            },
+            order: [['id', 'DESC']],
+            include: [
+                {
+                    model: Usuario,
+                    as: 'usuarioAsignado', // Asegúrate que el alias coincida con la asociación definida en el modelo
+                    attributes: ['tx_nombre']
+                }
+            ]
+        });
+
+        const resultado = await articuloContado; // asignar el resultado a la variable resultado
+
+        return res.status(200).json({
+            mensaje: "Datos consultados",
+            datos: resultado
+        });
+    } catch (error) {
+        return res.status(500).json({
+            mensaje: "Error al consultar los datos",
+            datos: [],
+            error: error.message
+        });
+    }
+};
 
 // funcion que devuelve lista de diferencias de conteo por bodega y usuario para corregir
 exports.difConteosBodega = async (req, res) => {
@@ -299,12 +354,14 @@ exports.difConteosBodega = async (req, res) => {
             });
     
             return res.status(200).json({
+                estado: 'ok',
                 mensaje: "Datos consultados",
                 datos: resultado
             });
             
         } else {
             return res.status(200).json({
+                estado: 'error',
                 mensaje: "El usuario no tiene asignado un tercer conteo",
                 datos: []
             });

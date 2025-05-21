@@ -112,11 +112,32 @@ const getExistenciasBodega = async (req, res) => {
     }
 };
 
+
+// funcion para pruebas
+const pruebas = async (req, res) => {
+
+    try {
+        const datos = await slService.getExistenciasTangaraPorBodega();
+        res.status(200).json({
+            estado: 'ok',
+            mensaje: 'Query consultadas correctamente',
+            datos: datos
+        });
+    } catch (error) {
+        res.status(500).json({
+            estado: 'error',
+            message: 'Error al consultar el query',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     getLotesAll,
     getLotesProductoTienda,
     getBodegasAll,
     getProductosAll,
     getCodigosBarrasAll,
-    getExistenciasBodega
+    getExistenciasBodega,
+    pruebas
 };

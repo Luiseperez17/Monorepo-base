@@ -87,12 +87,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let conteo of listaConteos">
-          <td>{{ conteo.id_usuario_asignado }}</td>
+          <td>{{ conteo.usuarioAsignado ? conteo.usuarioAsignado.tx_nombre : conteo.id_usuario_asignado }}</td>
           <td>{{ conteo.codigo_barras }}</td>
           <td>{{ conteo.codigo_sap }}</td>
           <td>{{ conteo.lote_articulo }}</td>
           <td>{{ conteo.cantidad_contada }}</td>
-          <td>{{ conteo.created_at }}</td>
+            <td>{{ conteo.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</td>
           <td>
             <button class="btn btn-warning btn-sm" (click)="editarConteo(conteo)">Editar</button>
           </td>

@@ -1,0 +1,82 @@
+
+<app-banner-cabecera [tituloModulo]="'Generar Informes de Conteos'"></app-banner-cabecera>
+
+<div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start mb-3">
+    <label for="bodegasSelect" class="form-label">Bodega</label>
+    <select id="bodegasSelect" name="bodegasSelect" class="form-select" [(ngModel)]="bodega">
+        <option value="">Seleccione...</option>
+        <option *ngFor="let bod of listBodegas" [value]="bod.id_codigo_bodega">{{ bod.tx_descrip_bodega }}</option>
+    </select>
+</div>
+
+<div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start mb-3">
+    <label for="informesSelect" class="form-label">Informe</label>
+    <select id="informesSelect" name="informesSelect" class="form-select" [(ngModel)]="informe">
+        <option value="">Seleccione...</option>
+        <option value="comparar">Comparar Conteos</option>
+        <option value="compararSAP">Comparar conteo vs SAP</option>
+        <option value="tercerConteo">Generar Diferencias (tercer conteo)</option>
+        <option value="diferenciaSAP">Generar Diferencias (Conteo vs SAP)</option>
+        <option value="totalizado">Consultar Conteo Totalizado</option>
+        <option value="infoUsuario">Consultar Informe de Usuario</option>
+        <option value="repetidos">Consultar Conteos Repetidos</option>
+    </select>
+</div>
+
+<div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start mb-3" [hidden]="informe == 'tercerConteo'">
+    <label for="conteo1Select" class="form-label">Conteo </label>
+    <select id="conteo1Select" name="conteo1Select" class="form-select" [(ngModel)]="conteo">
+        <option value="">Seleccione... </option>
+        <option value="1">Primer conteo</option>
+        <option value="2">Segundo conteo</option>
+        <option value="3">Tercer conteo</option>
+        <option value="5">Conteo diferencia SAP</option>
+    </select>
+</div>
+
+<div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start mb-3" [hidden]="informe != 'comparar'">
+    <label for="conteo2Select" class="form-label">Conteo a Comparar</label>
+    <select id="conteo2Select" name="conteo2Select" class="form-select" [(ngModel)]="conteoComparar">
+        <option value="">Seleccione... </option>
+        <option value="">Seleccione... </option>
+        <option value="1">Primer conteo</option>
+        <option value="2">Segundo conteo</option>
+        <option value="3">Tercer conteo</option>
+        <option value="5">Conteo diferencia SAP</option>
+    </select>
+</div>
+
+<div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start mb-3" [hidden]="informe !== 'infoUsuario'">
+    <label for="usuariosSelect" class="form-label">Usuarios</label>
+    <select id="usuariosSelect" class="form-select" [(ngModel)]="usuarioSelect">
+        <option value="">Seleccione...</option>
+        <option *ngFor="let usuario of listUsuarios" [value]="usuario.id_usuario">{{ usuario.tx_nombre }}</option>
+    </select>
+</div>
+
+<div class="container-fluid row">
+    <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start mt-3">
+        <button class="btn btn-primary botonSilveragro mt-2" (click)="procesarInforme()"> 
+            {{ informe == 'tercerConteo' || informe == 'diferenciaSAP' ? 'GENERAR' : 'CONSULTAR' }} 
+        </button>
+    </div>
+</div>
+
+
+
+<!-- Tabla dinámica -->
+<div *ngIf="columnas && datosInforme" class="alert alert-danger mt-4">
+    {{ mensajeTabla }}
+</div>
+<table *ngIf="columnas && datosInforme" class="table table-bordered table-striped mt-4">
+    <thead>
+        <tr>
+            <th *ngFor="let col of columnas">{{ col.header }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let fila of datosInforme" [class]="validaCalse(fila)">
+            <td *ngFor="let col of columnas">{{ fila[col.field] }}</td>
+        </tr>
+    </tbody>
+</table>

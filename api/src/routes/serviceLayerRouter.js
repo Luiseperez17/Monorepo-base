@@ -18,4 +18,8 @@ router.get('/sl/codigosBarrasAll', serviceLayerController.getCodigosBarrasAll);
 // consultar las existencias por bodega
 router.get('/sl/existenciasBodega/:codigoBodega', serviceLayerController.getExistenciasBodega);
 
+
+// route para pruebas 
+router.get("/sl/pruebas",serviceLayerController.pruebas);
+
 module.exports = router;

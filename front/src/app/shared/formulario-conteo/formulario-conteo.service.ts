@@ -32,4 +32,10 @@ export class FormularioConteoService {
     const url = `${this.apiUrl}/update/${conteo.id}`;
     return this.http.put<any>(url, conteo);
   }
+
+  // consultar conteos de un articulo y lote 
+  consultarConteosArticuloLote(bodega: string, numConteo: number | null, codigoSap: string, lote: string): Observable<any> {
+    const url = `${this.apiUrl}/articulo/lote/${bodega}/${numConteo}/${codigoSap}/${lote}`;
+    return this.http.get<any>(url);
+  }
 }

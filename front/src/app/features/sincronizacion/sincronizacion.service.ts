@@ -43,4 +43,5 @@ export class SincronizacionService {
     obtenerListaBodegas(): Observable<any> {
         return this.http.get<any>(`${environment.urlApi}/bodegas/list`);
     }
+    
 }

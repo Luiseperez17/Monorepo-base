@@ -15,6 +15,10 @@ const app_lotes = sequelize.define(
         fecha_vence: {
             type: DataTypes.DATEONLY,
             allowNull: true
+        },
+        fecha_admision: {
+            type: DataTypes.DATEONLY,
+            allowNull: true
         }
     }, {
         tableName: "app_lotes",

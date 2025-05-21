@@ -3,6 +3,7 @@ const router = express.Router();
 const asignarConteoController = require("../controllers/asignarConteoController");
 const bodegasController = require("../controllers/bodegasController");
 const conteosController = require("../controllers/conteosController");
+const informesController = require("../controllers/informesController");
 
 
 //Endpoints para asignación de conteo
@@ -32,8 +33,13 @@ router.put("/conteos/update/:id",conteosController.actualizar);
 router.delete("/conteos/delete/:id",conteosController.borrar);
 router.get("/conteos/linea/:idConteo",conteosController.getLineaConteo);
 router.get("/conteos/articulo/:idConteo/:codigoBarras",conteosController.getArticulo);
+router.get("/conteos/articulo/lote/:bodega/:numConteo/:codigoSap/:lote",conteosController.getConteosArticuloLote);
 router.get("/conteos/tercer-conteo/:idBodega/:idUsuario",conteosController.difConteosBodega);
 router.get("/conteos/dif-sap/:idBodega/:idUsuario",conteosController.difConteosBodegaSAP);
+
+
+//Endpoints para gestion de informes de conteos 
+router.get("/informes/comparar/:bodega/:conteo1/:conteo2",informesController.compararConteos);
 
 
 module.exports = router;

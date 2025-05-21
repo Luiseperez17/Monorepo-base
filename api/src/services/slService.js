@@ -40,7 +40,7 @@ async function getSap(endpoint, params = {}, prefer, pagination = false) {
         const sessionId = await loginToServiceLayer(); // invocar el login para obtener el sessionId
         console.log("ingresa a servicios get sap");
         const response = await axios.get(
-            `${SAP_BASE_URL}/${endpoint}`,
+            `${SAP_BASE_URL}${endpoint}`,
             {
                 params: params,
                 headers: {
@@ -119,26 +119,6 @@ async function getBodegasAll() {
         throw error; // Lanza el error para manejarlo en otro lugar
     }
   }
-
-// Función para obtener todos los productos
-// async function getProductosAll() {
-//     try {
-//         console.log("getProductosAll");
-    
-//         const endpoint  = 'Items';
-//         const params    = {
-//             // $select: 'WarehouseCode,WarehouseName' // Seleccionar solo los campos necesarios
-//         };
-//         // const prefer    = 'odata.maxpagesize = 1000'; //cantidad de rigistros
-//         const prefer    = ''; //cantidad de rigistros
-        
-//         const response = await getSap(endpoint, params, prefer)
-//         return response;
-//     } catch (error) {
-//         console.error('Error al consultar los items:', error.response ? error.response.data : error.message);
-//         throw error; // Lanza el error para manejarlo en otro lugar
-//     }
-// }
 
   // Función para obtener todos los productos existentes
 async function getProductosAll() {
@@ -261,6 +241,36 @@ async function getAllProductosPorBodega(warehouseCode) {
 }
 
 
+// servicio para consultar al API de Tangara, para traer las existencias de los productos por bodega
+async function getExistenciasTangaraPorBodega(whsCode = 'BOD') {
+  try {
+    console.log("getExistenciasTangaraPorBodega");
+
+    const url = 'http://147.93.45.148:5002/select';
+    const auth = {
+      username: 'Tangara',
+      password: 'T4ng4r4D3vS4S'
+    };
+    const data = {
+      script: `select top 1000 "ItemCode", "WhsCode", "BatchNum", "Quantity", "ExpDate" from SILVERAGRO.OIBT where "WhsCode" = '${whsCode}' order by "ItemCode" `,
+      motor: "HANA"
+    };
+
+    const response = await axios.post(url, data, {
+      auth: auth,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error al consultar existencias en Tangara:', error.response ? error.response.data : error.message);
+    throw error;
+  }
+}
+
+
 // Exporta la función para que pueda ser utilizada en otros archivos
 module.exports = {
     getLotesAll,
@@ -268,5 +278,6 @@ module.exports = {
     getBodegasAll,
     getProductosAll,
     getCodigosBarrasAll,
-    getAllProductosPorBodega
+    getAllProductosPorBodega,
+    getExistenciasTangaraPorBodega
 };
