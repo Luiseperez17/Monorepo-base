@@ -1,3 +1,7 @@
+const Sequelize = require('sequelize');
+const sequelize = require('../config/db');
+
+
 const Modulo = require("./moduloModel");
 const Permiso = require("./permisoModel");
 
@@ -20,4 +24,4 @@ Usuario.hasMany(app_conteo, { foreignKey: "id_usuario_asignado", as: "conteosAsi
 app_conteo.belongsTo(Usuario, { foreignKey: "id_usuario_asignado", as: "usuarioAsignado" });
 
 
-module.exports = { Modulo, Permiso, Lote, ExistenciaSap, Usuario, app_conteo };
+module.exports = { sequelize, Sequelize, Modulo, Permiso, Lote, ExistenciaSap, Usuario, app_conteo };

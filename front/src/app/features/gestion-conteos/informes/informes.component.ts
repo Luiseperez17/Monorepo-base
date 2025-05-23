@@ -28,7 +28,11 @@ export class InformesComponent {
   public usuarioSelect: any = ""; // Usuario seleccionado
   public columnas: any[] = []; // Lista de conteos
   public datosInforme: any[] = []; // Lista de conteos
-  public mensajeTabla: string = "Las filas de color rojo son los que tienen diferencia o no fueron contadas en conteo a comparar"; // Mensaje para la tabla
+  public mensajeTabla: string = "Las filas de color rojo son los conteos que tienen diferencia o no fueron contadas en el Conteo a Comparar."; // Mensaje para la tabla
+  public paginaActual: number = 1;
+  public filasPorPagina: number = 10; // Cantidad de filas por página
+  public terminoBusqueda: string = ''; // Término de búsqueda
+
 
   constructor(
     private informesService: InformesService, // Inyectar el servicio de informes
@@ -53,6 +57,49 @@ export class InformesComponent {
       }
     );
   }
+
+  ////////////////////////////////////////////////////////////////
+  ////////************* PAGINACIÓN Y BUSQUEDA ***********/////////
+  ////////////////////////////////////////////////////////////////
+  // funcion para filtrar los datos, Buscador 
+  get datosFiltrados(): any[] {
+    if (!this.terminoBusqueda) return this.datosInforme || [];
+    const term = this.terminoBusqueda.toLowerCase();
+    return (this.datosInforme || []).filter(fila =>
+      Object.values(fila).some(
+        valor => valor && valor.toString().toLowerCase().includes(term)
+      )
+    );
+  }
+  
+  // funcion para validar las filas a mostrar, desde - hasta 
+  get datosPaginados(): any[] {
+    const filas = Number(this.filasPorPagina) || 10;
+    const inicio = (this.paginaActual - 1) * filas;
+    const fin = inicio + filas;
+    return this.datosFiltrados.slice(inicio, fin);
+  }
+
+  // esta funcion calcula el total de paginas segun la cantidad de registros totales y por pagina 
+  public totalPaginas(): number {
+    return Math.ceil(this.datosFiltrados.length / this.filasPorPagina) || 1;
+  }
+
+  // funcion para cambiar entre paginas, paginación de resultados 
+  public cambiarPagina(nuevaPagina: number): void {
+    if (nuevaPagina >= 1 && nuevaPagina <= this.totalPaginas()) {
+      this.paginaActual = nuevaPagina;
+    }
+  }
+
+  // funcion para asegurar que el valor de filas por pagina sea un numero 
+  public onFilasPorPaginaChange(event: any): void {
+    this.filasPorPagina = Number(this.filasPorPagina);
+    this.paginaActual = 1;
+  }
+  ////////////////////////////////////////////////////////////////////
+  ////////************* END PAGINACIÓN Y BUSQUEDA ***********/////////
+  ///////////////////////////////////////////////////////////////////
 
   // Metodo para consultar la lista de usuarios
   public consultarUsuarios(): void { 
@@ -83,13 +130,39 @@ export class InformesComponent {
         ];
         break;
       case 'compararSAP':
-        return [];
+        this.columnas = [
+          {field:'descripcion_articulo', header:'Articulo'}, 
+          {field:'codigo_barras', header:'Código Barras'}, 
+          {field:'lote_articulo', header:'Lote'}, 
+          {field:'cantidad1', header:'Conteo'}, 
+          {field:'sap', header:'SAP'}, 
+          {field:'diferencia', header:'Diferencia'}
+        ];
         break;
       case 'tercerConteo':
-        return [];
+        this.columnas = [
+          {field:'codigo_sap', header:'Código SAP'}, 
+          {field:'descripcion_articulo', header:'Articulo'}, 
+          {field:'codigo_barras', header:'Código Barras'}, 
+          {field:'lote_articulo', header:'Lote'}, 
+          {field:'cantidad_conteo_1', header:'Primera Conteo'}, 
+          {field:'cantidad_conteo_2', header:'Segundo Conteo'}, 
+          {field:'cantidad_sap', header:'SAP'}, 
+          {field:'diferencia', header:'Diferencia'}
+        ];
         break;
       case 'diferenciaSAP':
-        return [];
+        this.columnas = [
+          {field:'codigo_sap', header:'Código SAP'}, 
+          {field:'descripcion_articulo', header:'Articulo'}, 
+          {field:'codigo_barras', header:'Código Barras'}, 
+          {field:'lote_articulo', header:'Lote'}, 
+          {field:'cantidad_sap', header:'Stock SAP'}, 
+          {field:'cantidad_conteo', header:'Conteo'}, 
+          {field:'diferencia', header:'Diferencia'}, 
+          {field:'costo_articulo', header:'Costo'},
+          {field:'costo_diferencia', header:'C. Diferencia'}
+        ];
         break;
       case 'totalizado':
         return [];
@@ -106,16 +179,16 @@ export class InformesComponent {
     return [];
   }
 
-  public validaCalse(fila:any): string {
+  public validaClase(fila:any): string {
     // Validar la clase de la fila según el valor de la diferencia
-    if (fila.diferencia != 0 || fila.contado == 'no') {
+    if (fila.diferencia != 0 || fila.contado == 'no' ) {
       return 'bkerror'; // Clase para diferencia positiva
     } else {
       return ''; // Sin clase adicional
     }
   }
 
-  public procesarInforme(): void {
+  public procesarInforme(generar: any): void {
    
     // console.log('Bodega seleccionada:', this.bodega);
     // console.log('Informe seleccionado:', this.informe);
@@ -155,10 +228,18 @@ export class InformesComponent {
           this.compararConteoSap(); // Llamar al método para comparar conteo coontra SAP
           break;
         case 'tercerConteo':
-          this.generarTercerConteo(); // Llamar al método para generar diferencias entre conteo 1 y 2
+          if (generar == 1) {
+            this.generarTercerConteo(); // Llamar al método para generar diferencias entre conteo 1 y 2
+          } else {
+            this.getTercerConteo(); // Llamar al método para consultar diferencias entre conteo 1 y 2
+          }
           break;
         case 'diferenciaSAP':
-          this.generarDiferenciasSap(); // Llamar al método para generar diferencias entre conteo y SAP
+          if (generar == 1) {
+            this.generarDiferenciasSap(); // Llamar al método para generar diferencias entre conteo y SAP
+          } else { 
+          this.getDiferenciasSap(); // Llamar al método para consultar diferencias entre conteo 1 y 2
+          }
           break;
         case 'totalizado':
           this.consultarTotalizado(); // mostrar informe totalizado
@@ -208,20 +289,127 @@ export class InformesComponent {
 
   // metodo para comparar conteo contra SAP
   public compararConteoSap(): void {
-    console.log('Conteo seleccionado:', this.conteo);
-    // Aquí puedes agregar la lógica para comparar el conteo contra SAP
+    // aqui vamos asignar los nombre de las columnas de la tabla 
+    this.obtenerCabecerasTabla(this.informe);
+    // Aquí vamosa consultar el servicio para traer los datos de la comparacion entre los dos conteos
+    this.funciones.confirmacion("Confirmación", "¿Se van a comparar los conteos seleccionados, desea continuar?", "info", () => {
+      // Aquí puedes agregar la lógica para comparar los conteos
+      this.informesService.compararConteoSap(this.conteo, this.bodega).subscribe(
+        (respuesta: any) => {  
+          if (respuesta.estado === 'ok') {
+            console.log('Respuesta de la comparación:', respuesta.datos);
+            // vamos a asignar el resultado 
+            this.datosInforme = respuesta.datos; // Asignar la respuesta a la lista de conteos
+          } else {
+            this.funciones.alerta("Error", "No se pudo realizar la comparación", "error");
+          }
+        },
+        (error: any) => {
+          console.error('Error al comparar los conteos:', error); // Manejo de errores
+          this.funciones.alerta("Error", "Ocurrió un error al comparar los conteos", "error");
+        }
+      );
+    });
   }
 
   // metodo para generar tercer conteo
   public generarTercerConteo(): void {
-    console.log('Conteo seleccionado:', this.conteo);
-    // Aquí puedes agregar la lógica para generar el tercer conteo
+    // aqui vamos asignar los nombre de las columnas de la tabla 
+    this.obtenerCabecerasTabla(this.informe);
+    // Aquí vamosa consultar el servicio para traer los datos de la comparacion entre los dos conteos
+    this.funciones.confirmacion("Confirmación", "¿Se van a generar las diferencias para el tercer conteo, desea continuar?", "info", () => {
+      // Aquí puedes agregar la lógica para comparar los conteos
+      this.informesService.generarTercerConteo(this.bodega).subscribe(
+        (respuesta: any) => {  
+          if (respuesta.estado === 'ok') {
+            console.log('Respuesta de generar tercer conteo:', respuesta.datos);
+            // vamos a asignar el resultado 
+            this.datosInforme = respuesta.datos; // Asignar la respuesta a la lista de conteos
+          } else {
+            this.funciones.alerta("Error", "No se pudo realizar la comparación", "error");
+          }
+        },
+        (error: any) => {
+          console.error('Error al comparar los conteos:', error); // Manejo de errores
+          this.funciones.alerta("Error", "Ocurrió un error al comparar los conteos", "error");
+        }
+      );
+    });
+  }
+
+  // metodo para consultar el tercer conteo (diferencias entre conteo 1 y 2)
+  public getTercerConteo(): void {
+    // aqui vamos asignar los nombre de las columnas de la tabla 
+    this.obtenerCabecerasTabla(this.informe);
+    // Aquí vamosa consultar el servicio para traer los datos de la comparacion entre los dos conteos
+    this.funciones.confirmacion("Confirmación", "¿Consultar los datos para tercer conteo, desea continuar?", "info", () => {
+      // Aquí puedes agregar la lógica para comparar los conteos
+      this.informesService.getTercerConteo(this.bodega).subscribe(
+        (respuesta: any) => {  
+          if (respuesta.estado === 'ok') {
+            console.log('Respuesta de consultar tercer conteo:', respuesta.datos);
+            // vamos a asignar el resultado 
+            this.datosInforme = respuesta.datos; // Asignar la respuesta a la lista de conteos
+          } else {
+            this.funciones.alerta("Error", "No se encontraron datos.", "error");
+          }
+        },
+        (error: any) => {
+          console.error('Error al comparar los conteos:', error); // Manejo de errores
+          this.funciones.alerta("Error", "Ocurrió un error al consultar conteo 3", "error");
+        }
+      );
+    });
   }
 
   // metodo para generar diferencias entre conteo y SAP
   public generarDiferenciasSap(): void {
-    console.log('Conteo seleccionado:', this.conteo);
-    // Aquí puedes agregar la lógica para generar las diferencias entre el conteo y SAP
+    // aqui vamos asignar los nombre de las columnas de la tabla 
+    this.obtenerCabecerasTabla(this.informe);
+    // Aquí vamosa consultar el servicio para traer los datos de la comparacion entre los dos conteos
+    this.funciones.confirmacion("Confirmación", "¿Se van a generar las diferencias entre el conteo y SAP, desea continuar?", "info", () => {
+      // Aquí puedes agregar la lógica para comparar los conteos
+      this.informesService.generarDiferenciasSap(this.bodega, this.conteo).subscribe(
+        (respuesta: any) => {   
+          if (respuesta.estado === 'ok') {
+            console.log('Respuesta de generar diferencias SAP:', respuesta.datos);
+            // vamos a asignar el resultado 
+            this.datosInforme = respuesta.datos; // Asignar la respuesta a la lista de conteos
+          } else {
+            this.funciones.alerta("Error", "No se pudo generar las diferencias con SAP", "error");
+          }
+        },
+        (error: any) => {
+          console.error('Error al comparar los conteos:', error); // Manejo de errores
+          this.funciones.alerta("Error", "Ocurrió un error al comparar los conteos", "error");
+        }
+      );
+    });
+  }
+
+  // metodo para consultar el tercer conteo (diferencias entre conteo 1 y 2)
+  public getDiferenciasSap(): void {
+    // aqui vamos asignar los nombre de las columnas de la tabla 
+    this.obtenerCabecerasTabla(this.informe);
+    // Aquí vamosa consultar el servicio para traer los datos de la comparacion entre los dos conteos
+    this.funciones.confirmacion("Confirmación", "¿Consultar las diferenias entre el conteo y SAP, desea continuar?", "info", () => {
+      // Aquí puedes agregar la lógica para comparar los conteos
+      this.informesService.getDiferenciasSap(this.bodega, this.conteo).subscribe(
+        (respuesta: any) => {  
+          if (respuesta.estado === 'ok') {
+            console.log('Respuesta de consultar Diferencias SAP:', respuesta.datos);
+            // vamos a asignar el resultado 
+            this.datosInforme = respuesta.datos; // Asignar la respuesta a la lista de conteos
+          } else {
+            this.funciones.alerta("Error", "No se encontraron datos.", "error");
+          }
+        },
+        (error: any) => {
+          console.error('Error al consultar las diferencias:', error); // Manejo de errores
+          this.funciones.alerta("Error", "Ocurrió un error al consultar diferencias sap", "error");
+        }
+      );
+    });
   }
 
   // metodo para mostrar informe totalizado

@@ -56,8 +56,11 @@
 
 <div class="container-fluid row">
     <div class="container col-10 col-sm-10 col-md-10 col-lg-4 float-start mt-3">
-        <button class="btn btn-primary botonSilveragro mt-2" (click)="procesarInforme()"> 
-            {{ informe == 'tercerConteo' || informe == 'diferenciaSAP' ? 'GENERAR' : 'CONSULTAR' }} 
+        <button class="btn btn-primary botonSilveragro mt-2" (click)="procesarInforme(1)" *ngIf="informe == 'tercerConteo' || informe == 'diferenciaSAP'"> 
+            GENERAR
+        </button>
+        <button class="btn btn-primary botonSilveragro mt-2 ms-1" (click)="procesarInforme(0)"> 
+            CONSULTAR
         </button>
     </div>
 </div>
@@ -65,18 +68,52 @@
 
 
 <!-- Tabla dinámica -->
-<div *ngIf="columnas && datosInforme" class="alert alert-danger mt-4">
+<div *ngIf="datosInforme && datosInforme.length > 0 && (informe == 'comparar' || informe == 'compararSAP')" class="alert alert-danger mt-4">
     {{ mensajeTabla }}
 </div>
-<table *ngIf="columnas && datosInforme" class="table table-bordered table-striped mt-4">
+
+<div class="row">
+    <div class="col-10 col-sm-10 col-md-10 col-lg-8 mb-2 float-start" *ngIf="datosInforme && datosInforme.length > 0">
+      <label>Filas por página:</label>
+      <select [(ngModel)]="filasPorPagina" (ngModelChange)="onFilasPorPaginaChange($event)" class="form-select" style="width: auto; display: inline-block;">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+    <div class="col-10 col-sm-10 col-md-10 col-lg-4 mb-2 float-end" *ngIf="datosInforme && datosInforme.length > 0">
+        <label class="">Buscar:</label>
+        <input type="text" [(ngModel)]="terminoBusqueda" (input)="paginaActual = 1" class="form-control d-inline-block" style="width: auto; display: inline-block; margin-right: 1rem;">
+    </div>
+</div>
+
+<table *ngIf="datosInforme && datosInforme.length > 0" class="table table-bordered table-striped table-hover table-sm">
     <thead>
         <tr>
+            <th>Fila</th>
             <th *ngFor="let col of columnas">{{ col.header }}</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let fila of datosInforme" [class]="validaCalse(fila)">
+        <tr *ngFor="let fila of datosPaginados" [class]="validaClase(fila)" >
+            <td>{{ (paginaActual - 1) * filasPorPagina + datosPaginados.indexOf(fila) + 1 }}</td>
             <td *ngFor="let col of columnas">{{ fila[col.field] }}</td>
         </tr>
     </tbody>
 </table>
+
+<div *ngIf="datosInforme && datosInforme.length > filasPorPagina" class="mt-2">
+  <button class="btn btn-secondary btn-sm me-2"
+          (click)="cambiarPagina(paginaActual - 1)"
+          [disabled]="paginaActual === 1">
+    Anterior
+  </button>
+  <span>Página {{ paginaActual }} de {{ totalPaginas() }}</span>
+  <button class="btn btn-secondary btn-sm ms-2"
+          (click)="cambiarPagina(paginaActual + 1)"
+          [disabled]="paginaActual === totalPaginas()">
+    Siguiente
+  </button>
+  <span> Total de registros ({{ this.datosFiltrados.length }})</span>
+</div>

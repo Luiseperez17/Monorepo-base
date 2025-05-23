@@ -40,6 +40,13 @@ router.get("/conteos/dif-sap/:idBodega/:idUsuario",conteosController.difConteosB
 
 //Endpoints para gestion de informes de conteos 
 router.get("/informes/comparar/:bodega/:conteo1/:conteo2",informesController.compararConteos);
+router.get("/informes/comparar-sap/:bodega/:conteo",informesController.compararConteosSap);
+router.get("/informes/tercer-conteo/:bodega",informesController.generarTercerConteo);
+router.get("/informes/get-tercer-conteo/:bodega",informesController.consultarTercerConteo);
+router.get("/informes/diferencias-sap/:bodega/:conteo",informesController.generarDiferenciasSap);
+router.get("/informes/get-diferencias-sap/:bodega/:conteo",informesController.consultarDiferenciasSap);
 
+
+// router.get("/informes/pruebas/:tabla",informesController.truncarTabla);
 
 module.exports = router;

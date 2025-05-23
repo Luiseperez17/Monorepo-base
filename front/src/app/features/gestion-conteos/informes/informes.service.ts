@@ -58,5 +58,30 @@ export class InformesService {
   compararConteos(conteo1: number, conteo2: number, codBodega: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}informes/comparar/${codBodega}/${conteo1}/${conteo2}`);
   }
-  
+
+  // servicio para comparar un conteo contra sap 
+  compararConteoSap(conteo: number, codBodega: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}informes/comparar-sap/${codBodega}/${conteo}`);
+  }
+
+  // servicio para generar el tercer conteo
+  generarTercerConteo(codBodega: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}informes/tercer-conteo/${codBodega}`);
+  }
+ 
+  // servicio para consultar el tercer conteo
+  getTercerConteo(codBodega: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}informes/get-tercer-conteo/${codBodega}`);
+  }
+
+  // servicio para generar la diferencia entre conteo y sap
+  generarDiferenciasSap(codBodega: string, conteo: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}informes/diferencias-sap/${codBodega}/${conteo}`);
+  }
+
+  // servicio para consultar diferencias entre conteo y sap, tabla app_dif_sap_conteo
+  getDiferenciasSap(codBodega: string, conteo: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}informes/get-diferencias-sap/${codBodega}/${conteo}`);
+  }
+
 }

@@ -17,9 +17,27 @@
             <h4 class="Titulo">Listado de diferencias entre el Primer y Segundo Conteo</h4>
         </div>
         <div class="container col-12 col-sm-12 col-md-10 col-lg-12 float-start mt-2">
+
+            <div class="row">
+                <div class="col-10 col-sm-10 col-md-10 col-lg-8 mb-2 float-start" *ngIf="conteosDiferencias && conteosDiferencias.length > 0">
+                <label>Filas por página:</label>
+                <select [(ngModel)]="filasPorPagina" (ngModelChange)="onFilasPorPaginaChange($event)" class="form-select" style="width: auto; display: inline-block;">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                </div>
+                <div class="col-10 col-sm-10 col-md-10 col-lg-4 mb-2 float-end" *ngIf="conteosDiferencias && conteosDiferencias.length > 0">
+                    <label class="">Buscar:</label>
+                    <input type="text" [(ngModel)]="terminoBusqueda" (input)="paginaActual = 1" class="form-control d-inline-block" style="width: auto; display: inline-block; margin-right: 1rem;">
+                </div>
+            </div>
+
             <table class="table table-bordered table-striped table-hover table-sm">
                 <thead class="table-dark>">
                     <tr>
+                        <th scope="col">Fila</th>
                         <th scope="col">Bodega</th>
                         <th scope="col">Código SAP</th>
                         <th scope="col">Descripción</th>
@@ -33,7 +51,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of conteosDiferencias">
+                    <tr *ngFor="let item of datosPaginados">
+                        <td>{{ (paginaActual - 1) * filasPorPagina + datosPaginados.indexOf(item) + 1 }}</td>
                         <td>{{ item.codigo_bodega }}</td>
                         <td>{{ item.codigo_sap }}</td>
                         <td>{{ item.descripcion_articulo }}</td>
@@ -47,6 +66,22 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div *ngIf="conteosDiferencias && conteosDiferencias.length > filasPorPagina" class="mt-2">
+                <button class="btn btn-secondary btn-sm me-2"
+                        (click)="cambiarPagina(paginaActual - 1)"
+                        [disabled]="paginaActual === 1">
+                    Anterior
+                </button>
+                <span>Página {{ paginaActual }} de {{ totalPaginas() }}</span>
+                <button class="btn btn-secondary btn-sm ms-2"
+                        (click)="cambiarPagina(paginaActual + 1)"
+                        [disabled]="paginaActual === totalPaginas()">
+                    Siguiente
+                </button>
+                <span> Total de registros ({{ this.datosFiltrados.length }})</span>
+            </div>
+
         </div>
     </div>
 </div>

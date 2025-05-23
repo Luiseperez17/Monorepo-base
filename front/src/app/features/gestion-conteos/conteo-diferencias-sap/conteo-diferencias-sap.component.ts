@@ -22,6 +22,9 @@ export class ConteoDiferenciasSapComponent {
   public conteosDiferenciasSap: any[] = []; // Lista de diferencias de conteos con SAP
   public listaBodegas: Bodega[] = []; // Lista de conteos asignados
   public bodegaSeleccionada: string = ''; // Bodega seleccionada por el usuario
+  public paginaActual: number = 1;
+  public filasPorPagina: number = 10; // Cantidad de filas por página
+  public terminoBusqueda: string = ''; // Término de búsqueda
 
   constructor(
     private conteoDifService: ConteoDiferenciasService,
@@ -45,6 +48,49 @@ export class ConteoDiferenciasSapComponent {
       }
     );
   }
+
+  ////////////////////////////////////////////////////////////////
+  ////////************* PAGINACIÓN Y BUSQUEDA ***********/////////
+  ////////////////////////////////////////////////////////////////
+  // funcion para filtrar los datos, Buscador 
+  get datosFiltrados(): any[] {
+    if (!this.terminoBusqueda) return this.conteosDiferencias || [];
+    const term = this.terminoBusqueda.toLowerCase();
+    return (this.conteosDiferencias || []).filter(fila =>
+      Object.values(fila).some(
+        valor => valor && valor.toString().toLowerCase().includes(term)
+      )
+    );
+  }
+  
+  // funcion para validar las filas a mostrar, desde - hasta 
+  get datosPaginados(): any[] {
+    const filas = Number(this.filasPorPagina) || 10;
+    const inicio = (this.paginaActual - 1) * filas;
+    const fin = inicio + filas;
+    return this.datosFiltrados.slice(inicio, fin);
+  }
+
+  // esta funcion calcula el total de paginas segun la cantidad de registros totales y por pagina 
+  public totalPaginas(): number {
+    return Math.ceil(this.datosFiltrados.length / this.filasPorPagina) || 1;
+  }
+
+  // funcion para cambiar entre paginas, paginación de resultados 
+  public cambiarPagina(nuevaPagina: number): void {
+    if (nuevaPagina >= 1 && nuevaPagina <= this.totalPaginas()) {
+      this.paginaActual = nuevaPagina;
+    }
+  }
+
+  // funcion para asegurar que el valor de filas por pagina sea un numero 
+  public onFilasPorPaginaChange(event: any): void {
+    this.filasPorPagina = Number(this.filasPorPagina);
+    this.paginaActual = 1;
+  }
+  ////////////////////////////////////////////////////////////////////
+  ////////************* END PAGINACIÓN Y BUSQUEDA ***********/////////
+  ///////////////////////////////////////////////////////////////////
 
   // consultar si el usuario tiene tercer conteo asignado 
   consultarConteosAsignados(): void {
