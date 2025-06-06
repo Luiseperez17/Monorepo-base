@@ -1,0 +1,38 @@
+:root {
+    --primary: #01b9ff;  /*hover botones. Def: #e86a21*/
+    --primaryDark: #01b9ff;  /*hover botones. Def: #e86a21*/
+   --blanco1: #f6f6f6; /*fondo general*/
+   --color2: #ffffff; /*fuentes*/
+   --colorA:#0e1a35;  /*titulo*/
+   --color3: #fff;  /*icono y fuentes*/
+   --colorAc:#027d44; /*login*/
+   --colorAo:#8492af; /*login*/
+   --colorAS:rgba(0, 0, 0, 0);
+   --colorAD:rgba(0, 0, 0, 0.176);
+   --color4:#d4d9e3;
+   --color5:#d2d2d2;
+   --colorAh: #f6f7fa;
+   --colorAj:#333; /*fondo lateral*/
+   --color6:#393534;
+   --color7:#0d172e;
+   --color8:#333; /*item interno*/
+   --color9:#ad470b;
+   --colorAw:#2494d1;  /*hober botones*/ 
+   --colorAw2:#0586b9;  /*hober botones*/ 
+   --azulOscuro:#017DAD;  /*hober botones*/ 
+   --color10: #dadee7;
+   --color11:#BDC4D4;
+   --color12: #999;
+   --color13: #eee; 
+   --color14: #ccc;
+   --color: white;
+   --color15: #85858584;
+   --color16: #008000;
+   --color17: #ff0000;
+   --gris: #333;
+   --colorIndex1:#066806;
+   --colorIndex2:#066806;
+   --cabezaPos:#066806;
+   --encabezadoDT:#000000;
+   --subcabeza:#055c05;
+}  

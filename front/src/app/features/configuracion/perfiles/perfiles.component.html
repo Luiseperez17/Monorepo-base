@@ -1,0 +1,128 @@
+<!--  Body Wrapper -->
+<div class="modal" tabindex="-1" id="modaCrea" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header container">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel" *ngIf="creaPerfil">{{CrearUsuario}}</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel" *ngIf="!creaPerfil">{{ActualizarUsuario}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form action="" (submit)="crearPerfil()">
+              <div class="container col-10 col-sm-10 col-md-10 col-lg-6 float-start">
+                  <label class="form-label">Nombre de perfil (*)</label>
+                  <input type="text" class="form-control" id="Usuario" name="Usuario" [(ngModel)]="datosPerfil.tx_descripcion"/>
+              </div>
+              <div class="container col-10 col-sm-10 col-md-10 col-lg-6 float-start">
+                <label class="form-label">Estado</label>
+                <select id="empleado" name="empleado" class="form-select" [(ngModel)]="datosPerfil.in_estado">
+                    <option value="0" disabled selected>Seleccione...</option>
+                    <!-- Iterar sobre los estados -->
+                    <option *ngFor="let estado of dataEstados" [value]="estado.id_estado">{{ estado.nombre_estado }}</option>
+                </select>
+              </div>
+              <div class="modal-footer col-md-12 float-start">
+                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="Submit" class="btn btn-primary botonSilveragro" data-bs-dismiss="modal" *ngIf="!creaPerfil">Actualizar</button>
+                  <button type="submit" class="btn btn-primary botonSilveragro" *ngIf="creaPerfil">Crear</button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- contenido central-->
+<div class="container-fluid">
+  <!--Inicio del contenido central-->
+  <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4 mt-4" style="top: 50px;"   *ngIf="permisosModulo && permisosModulo.ver == 1">
+    <div class="card-body px-4 py-3">
+      <div class="row align-items-center">
+        <div class="col-9">
+          <h4 class="fw-semibold mb-8">{{tituloModulo}}
+            <a data-bs-toggle="modal" data-bs-target="#modaCrea" target="_blank" class="btn btn-sm btn-primary botonSilveragro ms-5" (click)="crear()" *ngIf="permisosModulo.crear == 1">Agregar nuevo</a>
+          </h4>
+          <!-- <p>A continuación verá el listado de usuarios creado en el sistema</p> -->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a class="text-muted text-decoration-none" [routerLink]="'/home'">Home</a>
+              </li>
+              <li class="breadcrumb-item"><a class="text-muted text-decoration-none" [routerLink]="'/parametrizacion/12'">Parametrización</a></li>
+              <li class="breadcrumb-item" aria-current="page">{{tituloModulo}}</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-3">
+          <div class="text-center mb-n5">
+            <img src="../../../../../assets/images/logos/ChatBc.png" alt="" class="img-fluid mb-n4">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" *ngIf="permisosModulo && permisosModulo.ver == 1" style="top: 50px;">
+    <div class="card-body">
+      <div class="form-floating col-12 col-md-4 float-end buscar mb-4">
+        <div>
+          <input class="form-control buscardor" id="exampleFormControlInput1" [(ngModel)]="searchText" (input)="buscarPerfiles(searchText)" placeholder="Buscar...">
+        </div>
+      </div>
+      <div class="mb-0 col-md-12  float-start">
+        <div class="table-responsive">
+          <table class="table text-nowrap mb-0 align-middle table-striped ">
+            <thead class="text-dark fs-4 ">
+              <tr class="table-dark">
+                <th class="border-bottom-0">  CÓDIGO </th>
+                <th class="border-bottom-0">  DESCRIPCIÓN </th>
+                <th class="border-bottom-0">  ESTADO </th>
+                <th class="border-bottom-0 text-cernter"> OPCIONES </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let perfil of searchResults | paginate: pageNumber:pageSize">
+                <td class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">{{ perfil.id_perfil }}</h6>
+                </td>
+                <td class="border-bottom-0">
+                    <h6 class="fw-semibold mb-1">{{ perfil.tx_descripcion }}</h6>
+                </td>
+                <td class="border-bottom-0">
+                  <span *ngIf="perfil.in_estado == 1" class="badge rounded-pill text-bg-success">Activo</span>
+                  <span *ngIf="perfil.in_estado == 2" class="badge rounded-pill text-bg-danger">Inactivo</span>
+                </td>
+                <td class="border-bottom-0">
+                    <a data-bs-toggle="modal" data-bs-target="#modaCrea" target="_blank" class="btn btn-sm btn-primary botonSilveragro m-2" (click)="actualizar(perfil.id_perfil)" *ngIf="permisosModulo.editar == 1">
+                        <i class="ti ti-edit"></i>
+                    </a>
+                    <a data-bs-toggle="modal" data-bs-target="#modaCrea" target="_blank" class="btn btn-sm btn-danger m-2" (click)="eliminar(perfil.id_perfil)" *ngIf="permisosModulo.borrar == 1">
+                        <i class="ti ti-trash"></i>
+                    </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Agregar los botones de paginación -->
+          <div *ngIf="totalPages > 1" class="text-center">
+            <div class="d-flex justify-content-between col-12 col-md-4 mx-auto align-items-center">
+              <button *ngIf="pageNumber > 1" class="btn" (click)="previousPage()"><i class="ti ti-chevron-left botoNext"></i></button>
+              <div class="py-2 justify-content-start" style="flex-grow: 1;">
+                Página {{ pageNumber }} de {{ totalPages}}
+              </div>
+              <button *ngIf="pageNumber < totalPages" class="btn" (click)="nextPage()"><i class="ti ti-chevron-right botoNext"></i></button>
+            </div>
+          </div>                      
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt-0 pt-0" >
+    <ng-container *ngIf="permisosModulo && permisosModulo.ver == 0">
+      <app-no-acceso></app-no-acceso>
+    </ng-container>
+  </div>
+  <!--Fin del contenido central-->
+</div>
+<!--fin contenido central-->

@@ -1,0 +1,10 @@
+.icono{
+    margin-bottom: 10px; /* Ajusta el espacio entre el iconoo y el nombre según sea necesario */
+    cursor: pointer;
+    transition: color 0.3s ease; /* Agrega una transición suave para el color */
+  }
+  
+  .icono:hover {
+    color: #008000; /* Cambia el color al hacer hover */
+  }
+  

@@ -1,0 +1,403 @@
+<!-- modal creación categoria-->
+
+<div class="modal" tabindex="-1" id="modalCategorias" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form (submit)="procesaCategorias()">
+        <div class="modal-header">
+          <h5 class="modal-title" *ngIf="infoCategoria._id == 0">Creación de categoría</h5>
+          <h5 class="modal-title" *ngIf="infoCategoria._id != 0">Editar categoría</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-xs-12 col-md-6">
+              <div class="mb-3">
+                <label for="nombreModulo" class="form-label">Nombre categoría</label>
+                <input type="text" class="form-control" id="nombreModulo" name="nombreModulo" style="text-transform: uppercase;" aria-describedby="nombreHelp" [(ngModel)]="this.infoCategoria.nombreModulo" placeholder="Ej: Configuración">
+                <div id="nombreHelp" class="form-text"><small>Debe de escribir los nombre de la categoría.</small></div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-xs-12 col-md-6">
+              <div class="mb-3">
+                <label for="estado" class="form-label">Estado</label>
+                <select  class="form-select" id="estado" name="estado" aria-describedby="estadoHelp" [(ngModel)]="this.infoCategoria.estado">
+                  <option value="1">Activo</option>
+                  <option value="0">Inactivo</option>
+                </select>
+                <div id="eestadoHelp" class="form-text"><small>Estado de la categoría.</small></div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark"  (click)="cerrarModalCategorias()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" *ngIf="infoCategoria._id == 0 && permisosModulo.crear == 1">Crear</button>
+          <button type="submit" class="btn btn-primary" *ngIf="infoCategoria._id != 0 && permisosModulo.editar == 1">Modificar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- fin  modal creación categoria-->
+<!-- modal creación del módulo-->
+<div class="modal" tabindex="-1" id="modalModulos" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form (submit)="procesaModulo()">
+        <div class="modal-header">
+          <h5 class="modal-title" *ngIf="this.infoModulo._id == 0">Creación de módulo</h5>
+          <h5 class="modal-title" *ngIf="this.infoModulo._id != 0">Editar módulo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-xs-12 col-md-6">
+              <div class="mb-3">
+                <label for="nombreModulo" class="form-label">Nombre módulo</label>
+                <input type="text" class="form-control" id="nombreModulo" name="nombreModulo" aria-describedby="nombreModuloHelp" [(ngModel)]="this.infoModulo.nombreModulo" placeholder="Ej: Usuarios">
+                <div id="nombreModuloHelp" class="form-text"><small>Esté nombre identifica al módulo en el el menú lateral.</small></div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-xs-12 col-md-6">
+              <div class="mb-3">
+                <label for="nombreLargoModulo" class="form-label">Nombre largo del módulo</label>
+                <input type="text" class="form-control" id="nombreLargoModulo" name="nombreLargoModulo" aria-describedby="nombreLargoModuloHelp" [(ngModel)]="this.infoModulo.nombreLargoModulo" placeholder="Ej: Usuarios del sistema">
+                <div id="nombreLargoModuloHelp" class="form-text"><small>Esté nombre aparecerá en el titulo interno del módulo.</small></div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-xs-12 col-md-6">
+              <div class="mb-3">
+                <label for="urlModulo" class="form-label">Ruta módulo</label>
+                <input type="text" class="form-control" id="urlModulo" name="urlModulo" aria-describedby="urlModuloHelp" [(ngModel)]="this.infoModulo.urlModulo" placeholder="Ej: usuario">
+                <div id="urlModuloHelp" class="form-text"><small>Es la ruta amigable del módulo, por ejemplo https://dominio.com/<strong>usuarios</strong></small></div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-xs-12 col-md-6">
+              <div class="mb-3">
+                <label for="componenteModulo" class="form-label">Componente del módulo</label>
+                <input type="text" class="form-control" id="componenteModulo" name="componenteModulo" aria-describedby="componenteModuloHelp" [(ngModel)]="this.infoModulo.componenteModulo" placeholder="Ej: UsersComponent">
+                <div id="componenteModuloHelp" class="form-text"><small>Nombre del componente en angular donde estará la lógica</small></div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-xs-12 col-md-6">
+              <div class="mb-3">
+                <label for="iconoModulo" class="form-label">Ícono del módulo</label>
+                <input type="text" class="form-control" id="iconoModulo" name="iconoModulo" aria-describedby="iconoModuloHelp" [(ngModel)]="this.infoModulo.iconoModulo" placeholder="Ej: user-plus">
+                <div id="iconoModuloHelp" class="form-text"><small>Librería de íconos usada: <a href="https://tabler-icons.io/" target="_blank">https://tabler-icons.io/</a></small></div>
+              </div>
+            </div>
+            
+            <div class="col-lg-6 col-xs-12 col-md-6">
+              <div class="mb-3">
+                <label for="orden" class="form-label">Orden</label>
+                <input type="text" class="form-control" id="orden" name="orden" aria-describedby="ordenHelp" [(ngModel)]="this.infoModulo.orden" placeholder="Ej: 1">
+                <div id="ordenHelp" class="form-text"><small>Ordene los contenidos en el menú de forma ascendente.</small></div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-xs-12 col-md-6">
+              <div class="mb-3">
+                <label for="estado" class="form-label">Estado</label>
+                <select  class="form-select" id="estado" name="estado" aria-describedby="estadoHelp" [(ngModel)]="this.infoModulo.estado">
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
+                </select>
+                <div id="eestadoHelp" class="form-text"><small>Estado dell módulo en el sistema.</small></div>
+              </div>
+            </div>
+          </div>
+          
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-dark"  (click)="cerrarModalModulos()">Cancelar</button>
+            
+          <button type="submit" class="btn btn-primary" *ngIf="infoModulo._id == 0 && permisosModulo.crear == 1">Crear</button>
+          <button type="submit" class="btn btn-primary" *ngIf="infoModulo._id != 0 && permisosModulo.editar == 1">Modificar</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--fin  modal creación del módulo-->
+
+
+
+<!-- modal permisos-->
+<div class="modal" tabindex="-1" id="modalPermisos" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form (submit)="guardarPermisos()">
+        <div class="modal-header">
+          <h5 class="modal-title" >Permisos del módulo "<i>{{infoModulo.nombreModulo}}</i>"</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Al seleccionar un permiso se guardará automáticamente</p>
+          <div class="table-responsive">
+            <table class="table">
+                <thead>
+                  <tr class="table-dark">
+                    <th>PERFIL</th>
+                    <th class="text-center">VER</th>
+                    <th class="text-center">CREAR</th>
+                    <th class="text-center">EDITAR</th>
+                    <th class="text-center">BORRAR</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let per of listaPermisos;let i = index;">
+                    <td>{{per.nombrePerfil}}</td>
+                    <td class="text-center"><input class="form-check-input" name="ver{{i}}" [(ngModel)]="per.ver" type="checkbox" role="switch"></td>
+                    <td class="text-center"><input class="form-check-input" name="crear{{i}}" [(ngModel)]="per.crear" type="checkbox" role="switch"></td>
+                    <td class="text-center"><input class="form-check-input" name="editar{{i}}" [(ngModel)]="per.editar" type="checkbox" role="switch"></td>
+                    <td class="text-center"><input class="form-check-input" name="borrar{{i}}" [(ngModel)]="per.borrar" type="checkbox" role="switch"></td>
+                  </tr>
+                </tbody>
+            </table>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark"  (click)="cerrarModalPermisos()">Cancelar</button>
+          <button type="submit" class="btn btn-primary botonSilveragro">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--fin modal permisos-->
+
+    <!-- contenido central-->
+    <div class="container-fluid">
+
+
+      <!-- Titulo-->
+      <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4 mt-4" style="top: 50px;"  *ngIf="permisosModulo.ver == 1">
+        <div class="card-body px-4 py-3">
+          <div class="row align-items-center">
+            <div class="col-9">
+              <h4 class="fw-semibold mb-8">Administración de modulos
+                <!-- <a (click)="abreModalCrearCategorias()" class="btn btn-sm btn-primary botonSilveragro ms-5" *ngIf="permisosModulo.crear == 1">Agregar nuevo</a> -->
+              </h4>
+              <!-- <p>A continuación verá el listado de usuarios creado en el sistema</p> -->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a class="text-muted text-decoration-none" [routerLink]="'/home/5'">Home</a>
+                  </li>
+                  <li class="breadcrumb-item" aria-current="page">Administración de modulos</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="col-3">
+              <div class="text-center mb-n5">
+                <img src="../../../../../assets/images/logos/ChatBc.png" alt="" class="img-fluid mb-n4">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Fin Titulo-->
+
+
+      <!--Inicio del contenido central-->
+      <ng-container *ngIf="permisosModulo.ver == 1">
+        <div class="card" style="top: 50px;">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Categorias de módulos
+              <a (click)="abreModalCrearCategorias()" class="btn btn-sm btn-primary botonSilveragro ms-5" *ngIf="permisosModulo.crear == 1">Agregar nuevo</a>
+            </h5>
+            
+            <div class="mb-0">
+            
+              <p>Listado de módulos creados en el sistema. Aquí podrá administrar el menú principal y sus permisos por perfil.</p>
+
+              <div class="table-responsive">
+
+                <div class="alert alert-primary" role="alert" *ngIf="listaCategorias.length == 0">
+                  No hay categorías creadas actualmente.
+                </div>
+
+
+                <table class="table text-nowrap mb-0 align-middle table-striped "  *ngIf="listaCategorias.length > 0">
+                  <thead class="text-dark fs-4 ">
+                    <tr  class="table-dark">
+                      <th class="border-bottom-0">
+                        Nombres Categoría
+                      </th>
+                      <th class="border-bottom-0">
+                        Estado
+                      </th>
+                      <th class="border-bottom-0 text-center">
+                        Acciones
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let categorias of listaCategorias">
+                      <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-1">{{categorias.nombreModulo}}</h6>
+                          <!-- <span class="fw-normal">Web Designer</span>                           -->
+                      </td>
+                      <td class="border-bottom-0">
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge bg-primary rounded-3 fw-semibold" *ngIf="categorias.estado == 1">Activo</span>
+                          <span class="badge bg-dark rounded-3 fw-semibold" *ngIf="categorias.estado == 0">Inactivo</span>
+                        </div>
+                      </td>
+                      <td class="border-bottom-0 text-center">
+                        <a  data-bs-toggle="modal" data-bs-target="#modalCategorias" (click)="editaCategoria(categorias)" target="_blank" title="Editar la categoría" class="btn btn-sm btn-primary  ms-1"  *ngIf="permisosModulo.editar == 1">
+                          <i class="ti ti-edit"></i>
+                        </a>
+                        <a  (click)="verModulos(categorias)" target="_blank" title="Ver módulos" class="btn btn-sm btn-dark  ms-1">
+                          <i class="ti ti-list"></i>
+                        </a>
+                        <!-- <a (click)="borrarCategoria(categorias)" target="_blank" title="Eliminar usuario" class="btn btn-sm btn-dark  ms-1">
+                          <i class="ti ti-trash"></i>
+                        </a> -->
+                      </td>
+                    </tr> 
+                                          
+                  </tbody>
+                </table>
+              </div>
+            
+            
+            </div>
+          </div>
+        </div>
+      <!--Fin del contenido central-->
+      </ng-container>
+
+
+    </div>
+    <!--fin contenido central-->
+
+
+
+
+    <!-- centro de la tabla de los módulos-->
+    <ng-container *ngIf="permisosModulo.ver == 1">
+    <!-- contenido central-->
+      <div class="container-fluid mt-0 pt-0" *ngIf="infoCatmodulos._id != 0">
+        <!--Inicio del contenido central-->
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Lista de módulos de la categoría <strong><i>"{{infoCatmodulos.nombreModulo.toLowerCase()}}"</i></strong>
+              <a (click)="abreModalCrearmodulos()" class="btn btn-sm btn-primary botonSilveragro ms-5"  *ngIf="permisosModulo.crear == 1">Agregar nuevo</a>
+            </h5>
+            <!-- <div class="dropdown">
+              <button class="btn btn-small btn-secondary  botonSilveragro dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Acciones
+              </button>
+              
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </div> -->
+            
+            <div class="mb-0">
+            
+            
+            
+              <p>A continuación verá los módulos creados para la categoría <strong><i>"{{infoCatmodulos.nombreModulo.toLowerCase()}}"</i></strong>. En esta sección podrá crear nuevos módulos, editarlos y gestionar los permisos</p>
+
+              <div class="table-responsive">
+
+                <div class="alert alert-primary" role="alert" *ngIf="listaModulos.length == 0">
+                  No hay categorías creadas actualmente.
+                </div>
+
+
+                <table class="table text-nowrap mb-0 align-middle table-striped"  *ngIf="listaModulos.length > 0">
+                  <thead class="text-dark fs-4">
+                    <tr class="table-dark">
+                      <th class="border-bottom-0">
+                        Ícono
+                      </th>
+                      <th class="border-bottom-0">
+                        Orden
+                      </th>
+                      <th class="border-bottom-0">
+                        Nombre módulo
+                      </th>
+                      <th class="border-bottom-0">
+                        Ruta
+                      </th>
+                      <th class="border-bottom-0">
+                        Componente
+                      </th>
+                      <th class="border-bottom-0">
+                        Estado
+                      </th>
+                      <th class="border-bottom-0 text-center">
+                        Acciones
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let modulosL of listaModulos">
+                      <td class="border-bottom-0">
+                          <i class="ti ti-{{modulosL.iconoModulo}} fs-8"></i>
+                      </td>
+                      <td class="border-bottom-0">
+                          {{modulosL.orden}}
+                      </td>
+                      <td class="border-bottom-0">
+                          {{modulosL.nombreModulo}}
+                          <!-- <span class="fw-normal">Web Designer</span>                           -->
+                      </td>
+                      <td class="border-bottom-0">
+                         /{{modulosL.urlModulo}}
+                          <!-- <span class="fw-normal">Web Designer</span>                           -->
+                      </td>
+                      <td class="border-bottom-0">
+                          {{modulosL.componenteModulo}}
+                          <!-- <span class="fw-normal">Web Designer</span>                           -->
+                      </td>
+                      <td class="border-bottom-0">
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge bg-primary rounded-3 fw-semibold" *ngIf="modulosL.estado == 1">Activo</span>
+                          <span class="badge bg-dark rounded-3 fw-semibold" *ngIf="modulosL.estado == 0">Inactivo</span>
+                        </div>
+                      </td>
+                      <td class="border-bottom-0 text-center">
+                        <a  data-bs-toggle="modal" data-bs-target="#modalModulos" (click)="editarModulo(modulosL)" target="_blank" title="Editar la categoría" class="btn btn-sm btn-primary  ms-1" *ngIf="permisosModulo.editar == 1">
+                          <i class="ti ti-edit"></i>
+                        </a>
+                        <a  (click)="verPermisos(modulosL)" target="_blank" title="Gestionar permisos" class="btn btn-sm btn-dark  ms-1"  *ngIf="permisosModulo.editar == 1">
+                          <i class="ti ti-user"></i>
+                        </a>
+                        <a (click)="borrarModulo(modulosL)" target="_blank" title="Eliminar módulo" class="btn btn-sm btn-danger  ms-1" *ngIf="permisosModulo.borrar == 1">
+                          <i class="ti ti-trash"></i>
+                        </a>
+                        <!-- <a (click)="borrarCategoria(categorias)" target="_blank" title="Eliminar usuario" class="btn btn-sm btn-dark  ms-1">
+                          <i class="ti ti-trash"></i>
+                        </a> -->
+                      </td>
+                    </tr> 
+                                          
+                  </tbody>
+                </table>
+              </div>
+            
+            
+            </div>
+          </div>
+        </div>
+        <!--Fin del contenido central-->
+      </div>
+    </ng-container>
+
+    <div class="container-fluid mt-0 pt-0" >
+      <ng-container *ngIf="permisosModulo.ver == 0">
+        <app-no-acceso></app-no-acceso>
+      </ng-container>
+    </div>
+    <!--fin  contenido de los módulos-->

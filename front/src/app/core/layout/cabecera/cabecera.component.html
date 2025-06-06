@@ -1,0 +1,84 @@
+<header class="app-header">
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <ul class="navbar-nav">
+      <!-- version movil -->
+      <li class="nav-item d-block d-xl-none">
+        <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)" (click)="onToggleMenu()">
+          <i class="ti ti-menu-2"></i>
+        </a>
+      </li>
+        <!-- version pc -->
+        <!-- <li class="nav-item d-block">
+          <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)" (click)="onToggleMenu()">
+          <i class="ti ti-menu-2"></i>
+          </a>
+        </li> -->
+      <!-- <span class=" versionAngular" title="{{versionAngular}}"> <i class="ti ti-brand-angular" style="font-size: 30px; color: #546C4C;"></i></span>
+      <span class=" version"> <i class="ti ti-code"></i> V.{{ version }}</span>
+      <p class="m-3">
+        <span *ngIf="demo" class="badge fw-semibold py-1 w-85 badgeDanger" style="padding:10px 10px;">DEMO</span>
+        <span *ngIf="!demo" class="badge fw-semibold py-1 w-85 badgeSuccess">Producción</span>
+      </p> -->
+      <!-- <li class="nav-item">
+        <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+          <i class="ti ti-bell-ringing"></i>
+          <div class="notification bg-primary rounded-circle"></div>
+        </a>
+      </li> -->
+    </ul>
+    <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+      <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+        <!-- <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary botonSilveragro">Descargar</a> -->
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
+          </a>
+          <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+            <div class="d-flex align-items-center py-9 mx-7 border-bottom">
+              <img src="../assets/images/profile/user-1.jpg" alt="" class="rounded-circle" width="80" height="80">
+              <div class="ms-3">
+                <h5 class="mb-1 fs-3">{{dataUsuario.tx_nombre}}</h5>
+                <span class="mb-1 d-block">Desinger</span>
+                <p class="mb-0 d-flex align-items-center gap-2">
+                  <li class="ti ti-mail fs-4"></li> {{dataUsuario.tx_usuario}}
+                </p>
+              </div>
+            </div>
+            <div class="message-body">
+              <!-- mi perfil -->
+              <a [routerLink]="'/perfil/27'" class="py-8 px-7 mt-8 d-flex align-items-center links">
+                <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
+                  <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-account.svg" width="24" height="24" alt="">
+                </span>
+                <div class="w-75 d-inline-block v-middle ps-3">
+                  <h6 class="mb-1 fs-3 fw-semibold lh-base">Mi Perfil</h6>
+                  <span class="fs-2 d-block text-body-secondary">Configurar Cuenta</span>
+                </div>
+              </a>
+
+              <!-- <a href="" class="py-8 px-7 mt-8 d-flex align-items-center links">
+                <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
+                  <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-inbox.svg" width="24" height="24" alt="">
+                </span>
+                <div class="w-75 d-inline-block v-middle ps-3">
+                  <h6 class="mb-1 fs-3 fw-semibold lh-base">Mi Correo</h6>
+                  <span class="fs-2 d-block text-body-secondary">Mensajes & Email</span>
+                </div>
+              </a>
+              <a href="" class="py-8 px-7 mt-8 d-flex align-items-center links">
+                <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
+                  <img src="https://bootstrapdemos.adminmart.com/modernize/dist/assets/images/svgs/icon-tasks.svg" width="24" height="24" alt="">
+                </span>
+                <div class="w-75 d-inline-block v-middle ps-3">
+                  <h6 class="mb-1 fs-3 fw-semibold lh-base">Mis Tareas</h6>
+                  <span class="fs-2 d-block text-body-secondary">Tareas Asignadas</span>
+                </div>
+              </a> -->
+              <a class="btn btn-outline-success btnCerrarSesion mx-3 mt-2 d-block" (click)="cerarSesion()">Cerrar sesión</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

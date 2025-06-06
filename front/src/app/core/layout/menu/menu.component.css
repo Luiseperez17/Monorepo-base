@@ -1,0 +1,25 @@
+.custom-bg-color-silveragro .sidebar-item.active  {background-color: #546C4C;border-radius: 10px;}
+.sidebar-item.active .hide-menu {color: white;}
+.sidebar-item.active i {color: white;}
+.custom-bg-color .sidebar-item.active {background-color: #566F84;border-radius: 10px;} /*EmpresaGeneral == 2*/
+.custom-bg-color .sidebar-item:hover {background-color: #FAF1D8;}
+.custom-bg-color .sidebar-item.active .hide-menu {color: white;}
+.custom-bg-color .sidebar-item.active i {color: white;}
+.arrow-icon { font-size: 20px;transition: transform 0.3s ease; /* Agrega una transición suave */}
+.open .arrow-icon {transform: rotate(90deg); /* Rota el icono hacia abajo cuando el menú está abierto */}
+.custom-toast {
+  background-color: #0D6EFD; /* Color de fondo deseado */
+  color: white; /* Color de texto deseado */
+}
+
+.menu-open {
+  /* Estilos para cuando el menú está abierto */
+  display: block;
+  left: 0;
+}
+
+.menu-closed {
+  /* Estilos para cuando el menú está cerrado */
+  display: none;
+  left: -270px;
+}
